@@ -8,7 +8,9 @@ const BRAND_BLUE = "#013469";
 const WHATSAPP_NUMBER = "5519996141749";
 const WHATSAPP_DEMO_MESSAGE =
   "Olá! Gostaria de solicitar uma demonstração gratuita da plataforma HeroTrack.";
-const WHATSAPP_DEMO_URL = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(WHATSAPP_DEMO_MESSAGE)}`;
+const WHATSAPP_DEMO_URL = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(
+  WHATSAPP_DEMO_MESSAGE
+)}`;
 
 function SectionLabel({
   children,
@@ -888,7 +890,7 @@ export default function HeroTrackLanding() {
                 text: "Rotas otimizadas, controle de temperatura para cargas refrigeradas e gestão completa de entregas.",
               },
               {
-                img: "https://images.unsplash.com/photo-1544620347-c4fd4a3d5957?w=600&q=80",
+                img: "/images/transporte-passageiros.png",
                 title: "Transporte de Passageiros",
                 text: "Monitoramento de escolares, fretados e transporte público com foco em segurança e pontualidade.",
               },
