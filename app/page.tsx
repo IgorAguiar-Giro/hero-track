@@ -1,6 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import MaintenanceFlowDiagram from "./components/MaintenanceFlowDiagram";
+import SiteHeader from "./components/SiteHeader";
 
 const BRAND_ORANGE = "#fd510f";
 const BRAND_BLUE = "#013469";
@@ -167,20 +168,8 @@ function OnboardingTimeline() {
 
 export default function HeroTrackLanding() {
   return (
-    <div className="min-h-screen bg-white font-sans text-gray-900 overflow-x-hidden">
-      {/* HEADER */}
-      <header className="bg-white border-b border-gray-100 py-2.5 sm:py-3 px-4 sm:px-6 md:px-12 flex justify-between items-center gap-3 sticky top-0 z-50 shadow-sm">
-        <Link href="#" className="flex items-center shrink-0">
-          <LogoSquare size="sm" />
-        </Link>
-        <a
-          href="#contato"
-          className="bg-[#fd510f] text-white px-3 sm:px-5 py-2 sm:py-2.5 rounded-md font-semibold hover:bg-orange-600 transition-colors text-xs sm:text-sm md:text-base whitespace-nowrap"
-        >
-          <span className="sm:hidden">Contato</span>
-          <span className="hidden sm:inline">Fale com um Especialista</span>
-        </a>
-      </header>
+    <div className="min-h-screen bg-white font-sans text-gray-900">
+      <SiteHeader />
 
       {/* HERO — Slide 1 (Corporate / Enterprise Design) */}
       <section className="relative w-full min-h-[75vh] flex items-center bg-[#013469] overflow-hidden">
@@ -1014,7 +1003,7 @@ export default function HeroTrackLanding() {
           </div>
           <a
             href="tel:+5519996141749"
-            className="mt-6 sm:mt-8 inline-block bg-[#fd510f] text-white px-6 sm:px-8 py-3 sm:py-4 rounded-md font-bold text-base sm:text-lg hover:bg-orange-600 transition-all shadow-lg text-center w-full sm:w-auto"
+            className="animate-cta-glow mt-6 sm:mt-8 inline-block w-full rounded-md bg-[#fd510f] px-6 py-3 text-center text-base font-bold text-white shadow-lg shadow-[#fd510f]/40 transition-all hover:scale-[1.02] hover:bg-orange-600 hover:shadow-xl hover:shadow-[#fd510f]/50 sm:mt-8 sm:w-auto sm:px-8 sm:py-4 sm:text-lg"
           >
             Solicitar Demonstração Gratuita
           </a>
