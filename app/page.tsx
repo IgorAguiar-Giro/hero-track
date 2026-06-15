@@ -182,41 +182,100 @@ export default function HeroTrackLanding() {
         </a>
       </header>
 
-      {/* HERO — Slide 1 */}
-      <section className="grid md:grid-cols-2 md:min-h-[85vh]">
-        <div className="flex flex-col justify-center px-4 sm:px-6 md:px-12 lg:px-16 py-10 sm:py-16 md:py-20 order-2 md:order-1">
-          <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-extrabold text-gray-900 mb-4 sm:mb-6 leading-tight">
-            HeroTrack — Sistema de Gestão de Frotas
-          </h1>
-          <p className="text-gray-700 text-sm sm:text-base md:text-lg leading-relaxed mb-6 sm:mb-8 max-w-xl">
-            Tecnologia de ponta para monitoramento, controle e otimização de
-            frotas em tempo real. Reduza custos, aumente a eficiência e eleve o
-            padrão operacional da sua empresa com a plataforma mais completa do
-            mercado.
-          </p>
-          <div className="flex flex-wrap gap-2 sm:gap-3">
-            <span className="bg-indigo-100 text-[#013469] px-3 sm:px-4 py-1.5 sm:py-2 rounded-full text-[10px] sm:text-xs font-bold tracking-wide">
-              GESTÃO DE FROTAS
-            </span>
-            <span className="border border-[#013469] text-[#013469] px-3 sm:px-4 py-1.5 sm:py-2 rounded-full text-[10px] sm:text-xs font-bold tracking-wide">
-              RASTREAMENTO EM TEMPO REAL
-            </span>
-            <span className="border border-[#013469] text-[#013469] px-3 sm:px-4 py-1.5 sm:py-2 rounded-full text-[10px] sm:text-xs font-bold tracking-wide">
-              EFICIÊNCIA OPERACIONAL
-            </span>
-          </div>
-        </div>
-        <div className="relative min-h-[220px] sm:min-h-[280px] md:min-h-full order-1 md:order-2">
+      {/* HERO — Slide 1 (Corporate / Enterprise Design) */}
+      <section className="relative w-full min-h-[75vh] flex items-center bg-[#013469] overflow-hidden">
+        {/* Background Horizontal Image with Corporate Overlay */}
+        <div className="absolute inset-0 z-0">
           <Image
             src="/images/hero-frota.png"
-            alt="Frota de caminhões"
+            alt="Frota de veículos corporativos"
             fill
-            quality={90}
             priority
             className="object-cover object-center"
-            sizes="(max-width: 768px) 100vw, 50vw"
+            sizes="100vw"
           />
-          <CornerLogo position="top-right" size="md" />
+          {/* Deep blue gradient overlay. Solid on the left for text readability, fading to the right */}
+          <div className="absolute inset-0 bg-gradient-to-r from-[#013469] via-[#013469]/90 to-[#013469]/20"></div>
+          {/* Fallback darker overlay for mobile to ensure text pops */}
+          <div className="absolute inset-0 bg-[#013469]/60 sm:hidden"></div>
+        </div>
+
+        {/* Main Content */}
+        <div className="relative z-10 w-full max-w-7xl mx-auto px-4 sm:px-6 md:px-12 lg:px-16 py-20 lg:py-32">
+          <div className="max-w-3xl">
+            {/* Corporate Kicker */}
+            <div className="flex items-center gap-4 mb-6">
+              <div className="h-[2px] w-8 bg-[#fd510f]"></div>
+              <span className="text-[#fd510f] font-bold text-xs sm:text-sm tracking-[0.2em] uppercase">
+                Telemetria & Gestão
+              </span>
+            </div>
+
+            {/* Serious, Authoritative Headline */}
+            <h1 className="inline-block  px-5 py-3 sm:px-6 sm:py-4 mb-6 text-4xl sm:text-5xl lg:text-6xl font-extrabold italic uppercase  ">
+              <span className="text-[#fd510f]">HERO</span>
+              <span className="text-white">TRACK</span>
+            </h1>
+
+            <p className="text-base sm:text-lg lg:text-xl text-blue-100 mb-10 max-w-2xl leading-relaxed font-light">
+              Reduza custos e aumente a eficiência da sua frota com
+              monitoramento em tempo real, manutenção preditiva e segurança
+              antifurto de nível empresarial.
+            </p>
+
+            {/* Straightforward CTAs with sharper edges (rounded-sm) */}
+            <div className="flex flex-col sm:flex-row gap-4">
+              <a
+                href="#contato"
+                className="bg-[#fd510f] text-white px-8 py-4 rounded-sm font-bold text-base hover:bg-orange-600 transition-colors text-center"
+              >
+                Fale com um Especialista
+              </a>
+              {/* <a
+                href="#solucao"
+                className="bg-transparent border-2 border-white text-white px-8 py-4 rounded-sm font-bold text-base hover:bg-white hover:text-[#013469] transition-colors text-center"
+              >
+                Conheça a Plataforma
+              </a>
+              */}
+            </div>
+          </div>
+        </div>
+
+        {/* Corporate Trust Bar at the bottom of the Hero */}
+        <div className="absolute bottom-0 left-0 w-full bg-[#013469]/95 border-t border-blue-800 z-20 hidden md:block">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 md:px-12 lg:px-16 py-5 flex justify-between items-center text-white">
+            <div className="flex items-center gap-10">
+              <div className="flex flex-col">
+                <span className="font-black text-2xl leading-none">GESTÃO</span>
+                <span className="text-blue-300 text-xs uppercase tracking-wider mt-1">
+                  De toda sua frota
+                </span>
+              </div>
+              <div className="w-px h-10 bg-blue-800"></div>
+              <div className="flex flex-col">
+                <span className="font-black text-2xl leading-none">
+                  RASTREAMENTO
+                </span>
+                <span className="text-blue-300 text-xs uppercase tracking-wider mt-1">
+                  Em tempo real
+                </span>
+              </div>
+              <div className="w-px h-10 bg-blue-800"></div>
+              <div className="flex flex-col">
+                <span className="font-black text-2xl leading-none">98%</span>
+                <span className="text-blue-300 text-xs uppercase tracking-wider mt-1">
+                  Índice de Retenção
+                </span>
+              </div>
+            </div>
+            <div className="flex items-center gap-3">
+              <span className="w-2.5 h-2.5 rounded-full bg-green-500 shadow-[0_0_8px_rgba(34,197,94,0.8)]"></span>
+              <span className="font-semibold text-sm text-blue-100 tracking-wide">
+                Suporte Operacional 24/7
+              </span>
+            </div>
+          </div>
         </div>
       </section>
 
@@ -966,6 +1025,17 @@ export default function HeroTrackLanding() {
         <p>
           &copy; {new Date().getFullYear()} HeroTrack Fleet Management. Todos os
           direitos reservados.
+        </p>
+        <p className="mt-2 text-blue-300">
+          Site criado por{" "}
+          <a
+            href="https://www.linkedin.com/in/igoraguiar000/"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-white font-medium hover:text-[#fd510f] transition-colors underline-offset-2 hover:underline"
+          >
+            Igor Aguiar
+          </a>
         </p>
       </footer>
     </div>
