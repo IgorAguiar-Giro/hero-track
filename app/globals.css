@@ -3,11 +3,20 @@
 :root {
   --background: #ffffff;
   --foreground: #171717;
+  --brand-navy: #013469;
+  --brand-orange: #fd510f;
+  --brand-surface: #f6f9fc;
+  --brand-warm: #fff8f4;
+  --brand-muted: #e8eef5;
 }
 
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
+  --color-brand-navy: var(--brand-navy);
+  --color-brand-orange: var(--brand-orange);
+  --color-brand-surface: var(--brand-surface);
+  --color-brand-warm: var(--brand-warm);
   --font-sans: var(--font-poppins);
 }
 

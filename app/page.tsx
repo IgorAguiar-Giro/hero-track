@@ -1,24 +1,60 @@
 import Image from "next/image";
-import Link from "next/link";
 import MaintenanceFlowDiagram from "./components/MaintenanceFlowDiagram";
 import SiteHeader from "./components/SiteHeader";
+import WhatsAppLink from "./components/WhatsAppLink";
 
 const BRAND_ORANGE = "#fd510f";
 const BRAND_BLUE = "#013469";
+const WHATSAPP_NUMBER = "5519996141749";
+const WHATSAPP_DEMO_MESSAGE =
+  "Olá! Gostaria de solicitar uma demonstração gratuita da plataforma HeroTrack.";
+const WHATSAPP_DEMO_URL = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(WHATSAPP_DEMO_MESSAGE)}`;
 
-function SectionLabel({ children }: { children: React.ReactNode }) {
+function SectionLabel({
+  children,
+  light = false,
+}: {
+  children: React.ReactNode;
+  light?: boolean;
+}) {
   return (
-    <p className="text-xs sm:text-sm font-bold text-gray-900 mb-2">
-      {children}
-    </p>
+    <div className="mb-3 flex items-center gap-3">
+      <span className="h-[3px] w-10 shrink-0 rounded-full bg-[#fd510f]" />
+      <p
+        className={`text-xs font-semibold uppercase tracking-[0.22em] sm:text-sm ${
+          light ? "text-[#fd510f]" : "text-[#fd510f]"
+        }`}
+      >
+        {children}
+      </p>
+    </div>
   );
 }
 
-function SectionTitle({ children }: { children: React.ReactNode }) {
+function SectionTitle({
+  children,
+  light = false,
+}: {
+  children: React.ReactNode;
+  light?: boolean;
+}) {
   return (
-    <h2 className="text-2xl sm:text-3xl md:text-4xl font-extrabold text-gray-900 mb-4 sm:mb-6 leading-tight">
-      {children}
-    </h2>
+    <div className="mb-4 sm:mb-6">
+      <h2
+        className={`text-2xl font-bold leading-tight sm:text-3xl md:text-4xl ${
+          light ? "text-white" : "text-[#013469]"
+        }`}
+      >
+        {children}
+      </h2>
+      <div
+        className={`mt-4 h-1 w-20 rounded-full ${
+          light
+            ? "bg-gradient-to-r from-[#fd510f] to-white/25"
+            : "bg-gradient-to-r from-[#fd510f] via-[#fd510f]/50 to-transparent"
+        }`}
+      />
+    </div>
   );
 }
 
@@ -116,29 +152,33 @@ function OnboardingTimeline() {
     <>
       {/* Mobile: left-aligned vertical timeline */}
       <div className="md:hidden relative pl-11 space-y-8">
-        <div className="absolute left-[17px] top-2 bottom-2 w-px bg-indigo-200" />
+        <div className="absolute left-[17px] top-2 bottom-2 w-px bg-[#013469]/20" />
         {onboardingSteps.map((item, i) => (
           <div key={item.day} className="relative">
-            <div className="absolute -left-11 top-0 w-9 h-9 bg-indigo-100 border border-indigo-200 rounded-lg flex items-center justify-center text-sm font-bold text-[#013469]">
+            <div className="absolute -left-11 top-0 flex h-9 w-9 items-center justify-center rounded-lg border border-[#013469]/15 bg-[#e8eef5] text-sm font-bold text-[#013469]">
               {i + 1}
             </div>
-            <h3 className="font-bold text-gray-900 mb-1 text-sm">{item.day}</h3>
-            <p className="text-gray-600 text-sm leading-relaxed">{item.text}</p>
+            <h3 className="mb-1 text-sm font-bold text-[#013469]">
+              {item.day}
+            </h3>
+            <p className="text-sm leading-relaxed text-slate-600">
+              {item.text}
+            </p>
           </div>
         ))}
       </div>
 
       {/* Desktop: centered zigzag timeline */}
       <div className="hidden md:block relative max-w-lg">
-        <div className="absolute left-1/2 top-4 bottom-4 w-px bg-indigo-200 -translate-x-1/2" />
+        <div className="absolute left-1/2 top-4 bottom-4 w-px -translate-x-1/2 bg-[#013469]/20" />
         {onboardingSteps.map((item, i) => {
           const isLeft = i % 2 === 0;
           const content = (
             <>
-              <h3 className="font-bold text-gray-900 mb-1 text-base">
+              <h3 className="mb-1 text-base font-bold text-[#013469]">
                 {item.day}
               </h3>
-              <p className="text-gray-600 text-sm leading-relaxed">
+              <p className="text-sm leading-relaxed text-slate-600">
                 {item.text}
               </p>
             </>
@@ -152,7 +192,7 @@ function OnboardingTimeline() {
               <div className={isLeft ? "text-right pr-4" : ""}>
                 {isLeft && content}
               </div>
-              <div className="relative z-10 w-10 h-10 bg-indigo-100 border border-indigo-200 rounded-lg flex items-center justify-center text-sm font-bold text-[#013469] shrink-0">
+              <div className="relative z-10 flex h-10 w-10 shrink-0 items-center justify-center rounded-lg border border-[#013469]/15 bg-[#e8eef5] text-sm font-bold text-[#013469]">
                 {i + 1}
               </div>
               <div className={isLeft ? "" : "text-left pl-4"}>
@@ -196,7 +236,7 @@ export default function HeroTrackLanding() {
             <div className="flex items-center gap-4 mb-6">
               <div className="h-[2px] w-8 bg-[#fd510f]"></div>
               <span className="text-[#fd510f] font-bold text-xs sm:text-sm tracking-[0.2em] uppercase">
-                Telemetria & Gestão
+                Inteligência Logística
               </span>
             </div>
 
@@ -287,30 +327,35 @@ export default function HeroTrackLanding() {
               segurança e redução de custos operacionais.
             </p>
             <div className="grid grid-cols-2 gap-3 sm:gap-4">
-              <div className="bg-indigo-50 p-3 sm:p-5 rounded-xl text-center">
-                <div className="text-xl sm:text-2xl md:text-3xl font-black text-gray-900 mb-1">
-                  +10 Anos
+              {[
+                {
+                  value: "+10 Anos",
+                  label: "de experiência no mercado",
+                },
+                {
+                  value: "+5.000",
+                  label: "veículos monitorados",
+                },
+                {
+                  value: "98%",
+                  label: "de satisfação dos clientes",
+                  span: "col-span-2",
+                },
+              ].map((stat) => (
+                <div
+                  key={stat.value}
+                  className={`rounded-xl border border-[#013469]/10 border-t-[3px] border-t-[#fd510f] bg-white p-3 text-center shadow-sm sm:p-5 ${
+                    stat.span ?? ""
+                  }`}
+                >
+                  <div className="mb-1 text-xl font-black text-[#013469] sm:text-2xl md:text-3xl">
+                    {stat.value}
+                  </div>
+                  <div className="text-xs text-slate-600 sm:text-sm">
+                    {stat.label}
+                  </div>
                 </div>
-                <div className="text-xs sm:text-sm text-gray-600">
-                  de experiência no mercado
-                </div>
-              </div>
-              <div className="bg-indigo-50 p-3 sm:p-5 rounded-xl text-center">
-                <div className="text-xl sm:text-2xl md:text-3xl font-black text-gray-900 mb-1">
-                  +5.000
-                </div>
-                <div className="text-xs sm:text-sm text-gray-600">
-                  veículos monitorados
-                </div>
-              </div>
-              <div className="bg-indigo-50 p-3 sm:p-5 rounded-xl text-center col-span-2">
-                <div className="text-xl sm:text-2xl md:text-3xl font-black text-gray-900 mb-1">
-                  98%
-                </div>
-                <div className="text-xs sm:text-sm text-gray-600">
-                  de satisfação dos clientes
-                </div>
-              </div>
+              ))}
             </div>
           </div>
           <div className="relative h-56 sm:h-80 md:h-[480px] rounded-xl sm:rounded-2xl overflow-hidden shadow-lg">
@@ -327,7 +372,7 @@ export default function HeroTrackLanding() {
       </section>
 
       {/* DESAFIO — Slide 3 */}
-      <section className="grid md:grid-cols-5 bg-white">
+      <section className="grid md:grid-cols-5 bg-[#f6f9fc]">
         <div className="md:col-span-2 relative min-h-[280px] sm:min-h-[360px] md:min-h-[600px]">
           <Image
             src="/images/desafio-gestao-frotas.png"
@@ -339,7 +384,8 @@ export default function HeroTrackLanding() {
           />
           <CornerLogo position="bottom-left" size="sm" />
         </div>
-        <div className="md:col-span-3 px-4 sm:px-6 md:px-12 lg:px-16 py-10 sm:py-16 flex flex-col justify-center">
+        <div className="md:col-span-3 flex flex-col justify-center bg-[#f6f9fc] px-4 py-10 sm:px-6 sm:py-16 md:px-12 lg:px-16">
+          <SectionLabel>O Desafio</SectionLabel>
           <SectionTitle>O Desafio da Gestão de Frotas no Brasil</SectionTitle>
           <p className="text-gray-700 mb-4 leading-relaxed font-medium">
             Gerenciar uma frota no Brasil é uma tarefa complexa.
@@ -367,10 +413,10 @@ export default function HeroTrackLanding() {
             ].map((item) => (
               <div
                 key={item.title}
-                className="border border-gray-200 rounded-lg p-5 border-l-4 border-l-[#013469] bg-white shadow-sm"
+                className="rounded-lg border border-[#013469]/10 border-l-4 border-l-[#fd510f] bg-white p-5 shadow-sm"
               >
-                <h3 className="font-bold text-gray-900 mb-2">{item.title}</h3>
-                <p className="text-gray-600 text-sm leading-relaxed">
+                <h3 className="mb-2 font-bold text-[#013469]">{item.title}</h3>
+                <p className="text-sm leading-relaxed text-slate-600">
                   {item.text}
                 </p>
               </div>
@@ -380,7 +426,7 @@ export default function HeroTrackLanding() {
       </section>
 
       {/* SOLUÇÃO — Slide 4 */}
-      <section className="py-10 sm:py-16 px-4 sm:px-6 md:px-12 lg:px-16 bg-white border-t border-gray-100">
+      <section className="border-t border-[#013469]/10 bg-white px-4 py-10 sm:px-6 sm:py-16 md:px-12 lg:px-16">
         <div className="max-w-7xl mx-auto">
           <div className="flex flex-col sm:flex-row sm:justify-between sm:items-start gap-4 mb-6 sm:mb-8">
             <div>
@@ -424,8 +470,10 @@ export default function HeroTrackLanding() {
                   {item.icon}
                 </div>
                 <div>
-                  <h3 className="font-bold text-gray-900 mb-2">{item.title}</h3>
-                  <p className="text-gray-600 text-sm leading-relaxed">
+                  <h3 className="mb-2 font-bold text-[#013469]">
+                    {item.title}
+                  </h3>
+                  <p className="text-sm leading-relaxed text-slate-600">
                     {item.text}
                   </p>
                 </div>
@@ -436,7 +484,7 @@ export default function HeroTrackLanding() {
       </section>
 
       {/* MÓDULOS — Slide 5 */}
-      <section className="py-10 sm:py-16 px-4 sm:px-6 md:px-12 lg:px-16 bg-gray-50">
+      <section className="border-t border-[#013469]/10 bg-[#fff8f4] px-4 py-10 sm:px-6 sm:py-16 md:px-12 lg:px-16">
         <div className="max-w-7xl mx-auto">
           <div className="flex flex-col sm:flex-row sm:justify-between sm:items-start gap-4 mb-8 sm:mb-10">
             <div>
@@ -477,11 +525,11 @@ export default function HeroTrackLanding() {
                 },
               ].map((item) => (
                 <div key={item.num} className="flex gap-5">
-                  <div className="bg-indigo-100 text-gray-700 font-bold text-xl w-12 h-12 rounded-xl flex items-center justify-center shrink-0">
+                  <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-[#013469] text-xl font-bold text-white">
                     {item.num}
                   </div>
                   <div>
-                    <h3 className="font-bold text-gray-900 mb-2">
+                    <h3 className="mb-2 font-bold text-[#013469]">
                       {item.title}
                     </h3>
                     <p className="text-gray-600 text-sm leading-relaxed">
@@ -539,8 +587,8 @@ export default function HeroTrackLanding() {
                     sizes="33vw"
                   />
                 </div>
-                <h3 className="font-bold text-gray-900 mb-2">{item.title}</h3>
-                <p className="text-gray-600 text-sm leading-relaxed">
+                <h3 className="mb-2 font-bold text-[#013469]">{item.title}</h3>
+                <p className="text-sm leading-relaxed text-slate-600">
                   {item.text}
                 </p>
               </div>
@@ -550,7 +598,7 @@ export default function HeroTrackLanding() {
       </section>
 
       {/* SEGURANÇA — Slide 7 */}
-      <section className="grid md:grid-cols-2 bg-white border-t border-gray-100">
+      <section className="grid border-t border-[#013469]/10 bg-[#f6f9fc] md:grid-cols-2">
         <div className="px-4 sm:px-6 md:px-12 lg:px-16 py-10 sm:py-16 flex flex-col justify-center order-2 md:order-1">
           <SectionLabel>Segurança de Carga</SectionLabel>
           <SectionTitle>Proteção Inteligente Contra Roubos</SectionTitle>
@@ -578,10 +626,12 @@ export default function HeroTrackLanding() {
             ].map((item) => (
               <div
                 key={item.title}
-                className={`bg-indigo-50 p-5 rounded-xl ${item.span ?? ""}`}
+                className={`rounded-xl border border-[#013469]/10 bg-[#013469]/5 p-5 ${
+                  item.span ?? ""
+                }`}
               >
-                <h3 className="font-bold text-gray-900 mb-2">{item.title}</h3>
-                <p className="text-gray-600 text-sm leading-relaxed">
+                <h3 className="mb-2 font-bold text-[#013469]">{item.title}</h3>
+                <p className="text-sm leading-relaxed text-slate-600">
                   {item.text}
                 </p>
               </div>
@@ -603,16 +653,25 @@ export default function HeroTrackLanding() {
       </section>
 
       {/* EFICIÊNCIA — Slide 8 */}
-      <section className="py-10 sm:py-16 px-4 sm:px-6 md:px-12 lg:px-16 bg-white">
-        <div className="max-w-7xl mx-auto">
-          <div className="flex flex-col sm:flex-row sm:justify-between sm:items-start gap-4 mb-4 sm:mb-6">
+      <section className="relative overflow-hidden bg-[#013469] px-4 py-10 sm:px-6 sm:py-16 md:px-12 lg:px-16">
+        <div
+          className="pointer-events-none absolute inset-0 opacity-[0.06]"
+          style={{
+            backgroundImage:
+              "radial-gradient(circle at 2px 2px, white 1px, transparent 0)",
+            backgroundSize: "28px 28px",
+          }}
+        />
+        <div className="pointer-events-none absolute -right-24 top-0 h-full w-1/2 bg-gradient-to-l from-[#fd510f]/15 to-transparent" />
+        <div className="relative mx-auto max-w-7xl">
+          <div className="mb-4 flex flex-col gap-4 sm:mb-6 sm:flex-row sm:items-start sm:justify-between">
             <div>
-              <SectionLabel>Eficiência Operacional</SectionLabel>
-              <SectionTitle>Redução de Custos Comprovada</SectionTitle>
+              <SectionLabel light>Eficiência Operacional</SectionLabel>
+              <SectionTitle light>Redução de Custos Comprovada</SectionTitle>
             </div>
             <LogoSquare size="sm" className="hidden md:flex" />
           </div>
-          <p className="text-gray-700 text-sm sm:text-base leading-relaxed max-w-4xl mb-8 sm:mb-12">
+          <p className="mb-8 max-w-4xl text-sm leading-relaxed text-blue-100/90 sm:mb-12 sm:text-base">
             Clientes HeroTrack reportam redução significativa nos custos
             operacionais após a implementação da plataforma. Com dados precisos
             sobre consumo, comportamento e manutenção, as decisões deixam de ser
@@ -643,15 +702,15 @@ export default function HeroTrackLanding() {
             ].map((item) => (
               <div key={item.title} className="text-center md:text-left">
                 <div
-                  className="text-4xl sm:text-5xl md:text-6xl font-black mb-2 sm:mb-3"
+                  className="mb-2 text-4xl font-black sm:mb-3 sm:text-5xl md:text-6xl"
                   style={{ color: BRAND_ORANGE }}
                 >
                   {item.pct}
                 </div>
-                <h3 className="font-bold text-gray-900 text-lg mb-2">
+                <h3 className="mb-2 text-lg font-bold text-white">
                   {item.title}
                 </h3>
-                <p className="text-gray-600 text-sm leading-relaxed">
+                <p className="text-sm leading-relaxed text-blue-200/90">
                   {item.text}
                 </p>
               </div>
@@ -661,7 +720,7 @@ export default function HeroTrackLanding() {
       </section>
 
       {/* GESTÃO DE MOTORISTAS — Slide 9 */}
-      <section className="py-10 sm:py-16 px-4 sm:px-6 md:px-12 lg:px-16 bg-gray-50">
+      <section className="border-t border-[#013469]/10 bg-[#f6f9fc] px-4 py-10 sm:px-6 sm:py-16 md:px-12 lg:px-16">
         <div className="max-w-7xl mx-auto grid md:grid-cols-2 gap-8 sm:gap-12 items-center">
           <div className="relative h-56 sm:h-80 md:h-[520px] rounded-xl sm:rounded-2xl overflow-hidden shadow-lg order-1 md:order-2">
             <Image
@@ -707,13 +766,13 @@ export default function HeroTrackLanding() {
               ].map((item) => (
                 <div
                   key={item.num}
-                  className="border border-gray-200 rounded-lg overflow-hidden flex"
+                  className="flex overflow-hidden rounded-lg border border-[#013469]/10"
                 >
-                  <div className="bg-indigo-100 text-2xl font-bold text-gray-700 w-14 flex items-center justify-center shrink-0">
+                  <div className="flex w-14 shrink-0 items-center justify-center bg-[#fd510f] text-2xl font-bold text-white">
                     {item.num}
                   </div>
                   <div className="p-4">
-                    <h3 className="font-bold text-gray-900 mb-1">
+                    <h3 className="mb-1 font-bold text-[#013469]">
                       {item.title}
                     </h3>
                     <p className="text-gray-600 text-sm">{item.text}</p>
@@ -754,7 +813,7 @@ export default function HeroTrackLanding() {
       </section>
 
       {/* RELATÓRIOS — Slide 11 */}
-      <section className="grid md:grid-cols-5 bg-gray-50 border-t border-gray-100">
+      <section className="grid border-t border-[#013469]/10 bg-[#f6f9fc] md:grid-cols-5">
         <div className="md:col-span-3 px-4 sm:px-6 md:px-12 lg:px-16 py-10 sm:py-16 order-2 md:order-1">
           <SectionLabel>Relatórios e Inteligência</SectionLabel>
           <SectionTitle>Dados que Geram Decisões Estratégicas</SectionTitle>
@@ -784,12 +843,14 @@ export default function HeroTrackLanding() {
               },
             ].map((item) => (
               <div key={item.title} className="flex gap-4">
-                <div className="bg-indigo-100 w-12 h-16 rounded-full flex items-center justify-center shrink-0 text-xl">
+                <div className="flex h-16 w-12 shrink-0 items-center justify-center rounded-full bg-[#e8eef5] text-xl ring-2 ring-[#fd510f]/30">
                   {item.icon}
                 </div>
                 <div>
-                  <h3 className="font-bold text-gray-900 mb-1">{item.title}</h3>
-                  <p className="text-gray-600 text-sm leading-relaxed">
+                  <h3 className="mb-1 font-bold text-[#013469]">
+                    {item.title}
+                  </h3>
+                  <p className="text-sm leading-relaxed text-slate-600">
                     {item.text}
                   </p>
                 </div>
@@ -847,8 +908,8 @@ export default function HeroTrackLanding() {
                     sizes="33vw"
                   />
                 </div>
-                <h3 className="font-bold text-gray-900 mb-2">{item.title}</h3>
-                <p className="text-gray-600 text-sm leading-relaxed">
+                <h3 className="mb-2 font-bold text-[#013469]">{item.title}</h3>
+                <p className="text-sm leading-relaxed text-slate-600">
                   {item.text}
                 </p>
               </div>
@@ -858,7 +919,7 @@ export default function HeroTrackLanding() {
       </section>
 
       {/* IMPLEMENTAÇÃO — Slide 13 */}
-      <section className="py-10 sm:py-16 px-4 sm:px-6 md:px-12 lg:px-16 bg-gray-50">
+      <section className="border-t border-[#013469]/10 bg-[#fff8f4] px-4 py-10 sm:px-6 sm:py-16 md:px-12 lg:px-16">
         <div className="max-w-7xl mx-auto grid md:grid-cols-2 gap-8 sm:gap-12 items-center">
           <div className="order-2 md:order-1">
             <SectionLabel>Implementação</SectionLabel>
@@ -884,7 +945,7 @@ export default function HeroTrackLanding() {
       </section>
 
       {/* DEPOIMENTOS — Slide 15 */}
-      <section className="grid md:grid-cols-5 bg-white border-t border-gray-100">
+      <section className="grid border-t border-[#013469]/10 bg-white md:grid-cols-5">
         <div className="md:col-span-3 px-4 sm:px-6 md:px-12 lg:px-16 py-10 sm:py-16 order-2 md:order-1">
           <SectionLabel>Depoimentos</SectionLabel>
           <SectionTitle>O Que Nossos Clientes Dizem</SectionTitle>
@@ -905,7 +966,7 @@ export default function HeroTrackLanding() {
             ].map((item) => (
               <div
                 key={item.name}
-                className="border-2 border-indigo-200 rounded-xl p-4 sm:p-6 relative"
+                className="relative rounded-xl border border-[#013469]/15 bg-white p-4 shadow-sm sm:p-6"
               >
                 <span
                   className="text-5xl absolute top-2 left-4 leading-none"
@@ -916,11 +977,11 @@ export default function HeroTrackLanding() {
                 <p className="text-gray-600 italic text-sm leading-relaxed mb-6 pt-6 relative z-10">
                   {item.quote}
                 </p>
-                <div className="font-bold text-gray-900">{item.name}</div>
-                <div className="text-sm text-gray-500">{item.role}</div>
+                <div className="font-bold text-[#013469]">{item.name}</div>
+                <div className="text-sm text-slate-500">{item.role}</div>
               </div>
             ))}
-            <div className="border-2 border-indigo-200 rounded-xl p-4 sm:p-6 relative md:col-span-2">
+            <div className="relative rounded-xl border border-[#013469]/15 bg-white p-4 shadow-sm sm:p-6 md:col-span-2">
               <span
                 className="text-5xl absolute top-2 left-4 leading-none"
                 style={{ color: BRAND_BLUE }}
@@ -932,8 +993,8 @@ export default function HeroTrackLanding() {
                 madrugada. A central HeroTrack agiu em menos de 5 minutos e
                 recuperamos o veículo.
               </p>
-              <div className="font-bold text-gray-900">Roberto Alves</div>
-              <div className="text-sm text-gray-500">
+              <div className="font-bold text-[#013469]">Roberto Alves</div>
+              <div className="text-sm text-slate-500">
                 Proprietário, Transportes Alves & Filhos
               </div>
             </div>
@@ -954,7 +1015,7 @@ export default function HeroTrackLanding() {
       {/* CTA — Slide 16 */}
       <section
         id="contato"
-        className="grid md:grid-cols-5 bg-white border-t border-gray-100"
+        className="grid border-t border-[#013469]/10 bg-gradient-to-br from-[#f6f9fc] via-white to-[#fff8f4] md:grid-cols-5"
       >
         <div className="md:col-span-2 relative min-h-[280px] sm:min-h-[360px] md:min-h-full">
           <Image
@@ -969,29 +1030,35 @@ export default function HeroTrackLanding() {
           <div className="flex justify-end mb-6 sm:mb-8">
             <LogoSquare size="sm" />
           </div>
-          <h2 className="text-2xl sm:text-3xl md:text-4xl font-extrabold text-gray-900 mb-4 sm:mb-6">
-            Fale com um Especialista
-          </h2>
-          <p className="text-gray-700 text-sm sm:text-base leading-relaxed mb-6 sm:mb-8 max-w-2xl">
+          <SectionLabel>Fale Conosco</SectionLabel>
+          <SectionTitle>Fale com um Especialista</SectionTitle>
+          <p className="mb-6 max-w-2xl text-sm leading-relaxed text-slate-700 sm:mb-8 sm:text-base">
             Pronto para transformar a gestão da sua frota? Nossa equipe está
             disponível para apresentar uma demonstração personalizada, tirar
             todas as suas dúvidas e montar o plano ideal para a realidade da sua
             empresa.
           </p>
-          <div className="bg-indigo-50 p-4 sm:p-6 rounded-xl mb-4 w-full max-w-md">
-            <div className="font-bold text-lg sm:text-xl text-gray-900 mb-1">
+          <div className="mb-4 w-full max-w-md rounded-xl border border-[#013469]/15 bg-white p-4 shadow-sm sm:p-6">
+            <div className="mb-1 text-lg font-bold text-[#013469] sm:text-xl">
               José Souza
             </div>
-            <div className="text-gray-600 mb-3">
+            <div className="mb-3 text-slate-600">
               Especialista em Gestão de Frotas HeroTrack
             </div>
-            <a
-              href="tel:+5519996141749"
-              className="flex items-center gap-2 font-bold text-gray-900 text-lg hover:text-[#fd510f] transition-colors"
+            <WhatsAppLink
+              href={`https://wa.me/${WHATSAPP_NUMBER}`}
+              className="flex items-center gap-2.5 text-lg font-bold text-[#013469] transition-colors hover:text-[#25D366]"
             >
-              <span className="text-xl">📞</span>
+              <svg
+                viewBox="0 0 24 24"
+                fill="currentColor"
+                className="h-6 w-6 shrink-0 text-[#25D366]"
+                aria-hidden
+              >
+                <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.435 9.884-9.881 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.89-11.893a11.821 11.821 0 00-3.48-8.413z" />
+              </svg>
               (19) 99614-1749
-            </a>
+            </WhatsAppLink>
           </div>
           <div className="bg-green-50 border border-green-100 p-4 sm:p-5 rounded-xl w-full max-w-2xl flex gap-3 items-start">
             <span className="text-green-600 text-xl shrink-0">✓</span>
@@ -1001,12 +1068,12 @@ export default function HeroTrackLanding() {
               para a sua frota!
             </p>
           </div>
-          <a
-            href="tel:+5519996141749"
+          <WhatsAppLink
+            href={WHATSAPP_DEMO_URL}
             className="animate-cta-glow mt-6 sm:mt-8 inline-block w-full rounded-md bg-[#fd510f] px-6 py-3 text-center text-base font-bold text-white shadow-lg shadow-[#fd510f]/40 transition-all hover:scale-[1.02] hover:bg-orange-600 hover:shadow-xl hover:shadow-[#fd510f]/50 sm:mt-8 sm:w-auto sm:px-8 sm:py-4 sm:text-lg"
           >
             Solicitar Demonstração Gratuita
-          </a>
+          </WhatsAppLink>
         </div>
       </section>
 

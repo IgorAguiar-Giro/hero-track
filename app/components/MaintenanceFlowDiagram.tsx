@@ -5,6 +5,7 @@ import { useEffect, useState } from "react";
 const steps = [
   {
     label: "Monitoramento",
+    description: "Coleta dados do veículo em tempo real.",
     color: "bg-[#013469]",
     icon: (
       <svg
@@ -22,7 +23,8 @@ const steps = [
   },
   {
     label: "Análise",
-    color: "bg-blue-700",
+    description: "Identifica desgaste e risco de falha.",
+    color: "bg-[#024a8a]",
     icon: (
       <svg
         viewBox="0 0 24 24"
@@ -39,14 +41,15 @@ const steps = [
   },
   {
     label: "Agendamento",
-    color: "bg-indigo-300",
+    description: "Programa revisões automaticamente.",
+    color: "bg-[#fd510f]",
     icon: (
       <svg
         viewBox="0 0 24 24"
         fill="none"
         stroke="currentColor"
         strokeWidth="2"
-        className="w-7 h-7 text-[#013469]"
+        className="h-7 w-7"
         aria-hidden
       >
         <rect x="3" y="4" width="18" height="18" rx="2" />
@@ -56,7 +59,8 @@ const steps = [
   },
   {
     label: "Alerta",
-    color: "bg-blue-600",
+    description: "Avisa antes da falha acontecer.",
+    color: "bg-[#fd510f]",
     icon: (
       <svg
         viewBox="0 0 24 24"
@@ -78,6 +82,7 @@ const CYCLE_MS = 2800;
 function StepCard({
   index,
   label,
+  description,
   color,
   icon,
   active,
@@ -85,6 +90,7 @@ function StepCard({
 }: {
   index: number;
   label: string;
+  description: string;
   color: string;
   icon: React.ReactNode;
   active: boolean;
@@ -122,8 +128,8 @@ function StepCard({
           {index + 1}. {label}
         </p>
         {active && (
-          <p className="mt-1 text-xs text-gray-500 transition-opacity duration-300">
-            Etapa ativa no fluxo automatizado
+          <p className="mt-1 text-xs leading-relaxed text-slate-600 transition-opacity duration-300">
+            {description}
           </p>
         )}
       </div>
@@ -154,7 +160,7 @@ export default function MaintenanceFlowDiagram() {
         aria-hidden
       >
         <div
-          className="w-full rounded-full bg-gradient-to-b from-[#013469] via-[#fd510f] to-blue-600 transition-all duration-700 ease-in-out"
+          className="w-full rounded-full bg-gradient-to-b from-[#013469] via-[#fd510f] to-[#024a8a] transition-all duration-700 ease-in-out"
           style={{
             height: `${((active + 1) / steps.length) * 100}%`,
           }}
@@ -175,6 +181,7 @@ export default function MaintenanceFlowDiagram() {
             <StepCard
               index={i}
               label={step.label}
+              description={step.description}
               color={step.color}
               icon={step.icon}
               active={active === i}
