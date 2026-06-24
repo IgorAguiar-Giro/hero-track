@@ -34,13 +34,14 @@ export default function SiteHeader() {
       }`}
     >
       <Link href="#" className="flex shrink-0 items-center">
-        <div className="flex size-16 shrink-0 items-center justify-center bg-white p-2 sm:size-24">
+        {/* INCREASED: Wrapper size from size-16/size-24 to size-24/size-32 */}
+        <div className="flex size-24 shrink-0 items-center justify-center p-2 sm:size-32">
           <Image
-            src="/images/hero-track-logo.jpeg"
+            src="/images/track-hero-logo2.png"
             alt="HeroTrack — Fleet Management"
             width={180}
             height={180}
-            className="h-[3.25rem] w-[3.25rem] object-contain sm:h-[4.25rem] sm:w-[4.25rem]"
+            className="h-auto w-full object-contain"
             priority
           />
         </div>

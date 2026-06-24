@@ -145,13 +145,23 @@ function StepCard({
 
 export default function MaintenanceFlowDiagram() {
   const [active, setActive] = useState(0);
+  const [delay, setDelay] = useState(CYCLE_MS);
 
   useEffect(() => {
-    const id = window.setInterval(() => {
+    // Using setTimeout instead of setInterval so it resets on every interaction
+    const id = setTimeout(() => {
       setActive((current) => (current + 1) % steps.length);
-    }, CYCLE_MS);
-    return () => window.clearInterval(id);
-  }, []);
+      setDelay(CYCLE_MS); // Reset back to standard 2.8s after the custom delay finishes
+    }, delay);
+
+    // This cleanup function runs every time 'active' or 'delay' changes, effectively resetting the timer
+    return () => clearTimeout(id);
+  }, [active, delay]);
+
+  const handleSelect = (i: number) => {
+    setActive(i);
+    setDelay(2000); // Force a fresh 2-second delay upon click
+  };
 
   return (
     <div className="relative mx-auto mb-8 max-w-xl pl-2 sm:mb-10 md:max-w-2xl">
@@ -185,7 +195,7 @@ export default function MaintenanceFlowDiagram() {
               color={step.color}
               icon={step.icon}
               active={active === i}
-              onSelect={() => setActive(i)}
+              onSelect={() => handleSelect(i)} // <-- Updated to use handleSelect
             />
           </div>
         ))}
@@ -196,9 +206,11 @@ export default function MaintenanceFlowDiagram() {
           <button
             key={step.label}
             type="button"
-            onClick={() => setActive(i)}
+            onClick={() => handleSelect(i)} // <-- Updated to use handleSelect
             className={`h-2 rounded-full transition-all duration-500 ${
-              active === i ? "w-8 bg-[#fd510f]" : "w-2 bg-gray-300 hover:bg-gray-400"
+              active === i
+                ? "w-8 bg-[#fd510f]"
+                : "w-2 bg-gray-300 hover:bg-gray-400"
             }`}
             aria-label={`Ir para ${step.label}`}
           />

@@ -7,7 +7,7 @@ const BRAND_ORANGE = "#fd510f";
 const BRAND_BLUE = "#013469";
 const WHATSAPP_NUMBER = "5519996141749";
 const WHATSAPP_DEMO_MESSAGE =
-  "Olá! Gostaria de solicitar uma demonstração gratuita da plataforma HeroTrack.";
+  "Olá! Gostaria de solicitar uma demonstração gratuita da plataforma TrackHero.";
 const WHATSAPP_DEMO_URL = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(
   WHATSAPP_DEMO_MESSAGE
 )}`;
@@ -61,14 +61,14 @@ function SectionTitle({
 }
 
 function Logo({
-  className = "h-16 w-16 object-contain",
+  className = " h-full w-full object-contain",
 }: {
   className?: string;
 }) {
   return (
     <Image
-      src="/images/hero-track-logo.jpeg"
-      alt="HeroTrack — Fleet Management"
+      src="/images/track-hero-logo2.png"
+      alt="TrackHero — Fleet Management"
       width={180}
       height={180}
       className={className}
@@ -93,24 +93,22 @@ const logoBoxSize: Record<LogoSize, string> = {
   lg: "size-28 sm:size-40",
 };
 
-const logoImageSize: Record<LogoSize, string> = {
-  sm: "h-[3.25rem] w-[3.25rem] sm:h-[4.25rem] sm:w-[4.25rem]",
-  md: "h-[4.5rem] w-[4.5rem] sm:h-[5.75rem] sm:w-[5.75rem]",
-  lg: "h-[5.5rem] w-[5.5rem] sm:h-[7.25rem] sm:w-[7.25rem]",
-};
-
 function LogoSquare({
   size = "md",
   className = "",
+  transparent = false,
 }: {
   size?: LogoSize;
   className?: string;
+  transparent?: boolean;
 }) {
   return (
     <div
-      className={`${logoBoxSize[size]} bg-white flex items-center justify-center p-2 shrink-0 ${className}`}
+      className={`${logoBoxSize[size]} ${
+        transparent ? "bg-transparent" : "bg-white"
+      } flex items-center justify-center shrink-0 ${className}`}
     >
-      <Logo className={`${logoImageSize[size]} object-contain`} />
+      <Logo className={` object-contain`} />
     </div>
   );
 }
@@ -118,13 +116,16 @@ function LogoSquare({
 function CornerLogo({
   position = "top-right",
   size = "md",
+  transparent = false,
 }: {
   position?: Corner;
   size?: LogoSize;
+  transparent?: boolean;
 }) {
   return (
     <LogoSquare
       size={size}
+      transparent={transparent} // <-- Added this so it passes the prop down
       className={`absolute ${cornerPosition[position]} z-10 scale-90 sm:scale-100`}
     />
   );
@@ -141,7 +142,7 @@ const onboardingSteps = [
   },
   {
     day: "Dia 3 — Treinamento",
-    text: "Capacitação dos gestores na plataforma web e no aplicativo mobile HeroTrack.",
+    text: "Capacitação dos gestores na plataforma web e no aplicativo mobile TrackHero.",
   },
   {
     day: "Dia 4+ — Operação",
@@ -208,7 +209,7 @@ function OnboardingTimeline() {
   );
 }
 
-export default function HeroTrackLanding() {
+export default function TrackHeroLanding() {
   return (
     <div className="min-h-screen bg-white font-sans text-gray-900">
       <SiteHeader />
@@ -244,8 +245,8 @@ export default function HeroTrackLanding() {
 
             {/* Serious, Authoritative Headline */}
             <h1 className="inline-block  px-5 py-3 sm:px-6 sm:py-4 mb-6 text-4xl sm:text-5xl lg:text-6xl font-extrabold italic uppercase  ">
-              <span className="text-[#fd510f]">HERO</span>
               <span className="text-white">TRACK</span>
+              <span className="text-[#fd510f]">HERO</span>
             </h1>
 
             <p className="text-base sm:text-lg lg:text-xl text-blue-100 mb-10 max-w-2xl leading-relaxed font-light">
@@ -314,10 +315,10 @@ export default function HeroTrackLanding() {
       <section className="py-10 sm:py-16 px-4 sm:px-6 md:px-12 lg:px-16 bg-white">
         <div className="max-w-7xl mx-auto grid md:grid-cols-2 gap-8 sm:gap-12 items-center">
           <div>
-            <SectionLabel>Sobre a HeroTrack</SectionLabel>
+            <SectionLabel>Sobre a TrackHero</SectionLabel>
             <SectionTitle>Quem Somos</SectionTitle>
             <p className="text-gray-700 mb-4 leading-relaxed">
-              A HeroTrack é uma empresa brasileira especializada em soluções de
+              A TrackHero é uma empresa brasileira especializada em soluções de
               gestão de frotas, combinando rastreamento por GPS, inteligência
               artificial e análise de dados para transformar a maneira como as
               empresas gerenciam seus veículos.
@@ -363,7 +364,7 @@ export default function HeroTrackLanding() {
           <div className="relative h-56 sm:h-80 md:h-[480px] rounded-xl sm:rounded-2xl overflow-hidden shadow-lg">
             <Image
               src="/images/quem-somos.png"
-              alt="Central de monitoramento HeroTrack"
+              alt="Central de monitoramento TrackHero"
               fill
               quality={90}
               className="object-cover object-center"
@@ -434,13 +435,13 @@ export default function HeroTrackLanding() {
             <div>
               <SectionLabel>A Solução</SectionLabel>
               <SectionTitle>
-                HeroTrack: Visibilidade Total da Sua Frota
+                TrackHero: Visibilidade Total da Sua Frota
               </SectionTitle>
             </div>
             <LogoSquare size="sm" className="hidden md:flex" />
           </div>
           <p className="text-gray-700 text-sm sm:text-base md:text-lg leading-relaxed max-w-4xl mb-8 sm:mb-12">
-            A plataforma HeroTrack integra rastreamento GPS de alta precisão,
+            A plataforma TrackHero integra rastreamento GPS de alta precisão,
             telemetria veicular e inteligência de dados em um único painel de
             controle, acessível de qualquer lugar e a qualquer hora.
           </p>
@@ -495,13 +496,13 @@ export default function HeroTrackLanding() {
                 Funcionalidades que Transformam a Operação
               </SectionTitle>
             </div>
-            <LogoSquare size="sm" className="hidden md:flex" />
+            <LogoSquare size="sm" className="hidden md:flex" transparent />
           </div>
           <div className="grid md:grid-cols-2 gap-8 sm:gap-12 items-center">
             <div className="relative h-52 sm:h-72 md:h-96 rounded-xl sm:rounded-2xl overflow-hidden shadow-lg order-1 md:order-none">
               <Image
                 src="/images/modulos-plataforma.png"
-                alt="Dashboard HeroTrack — Módulos da Plataforma"
+                alt="Dashboard TrackHero — Módulos da Plataforma"
                 fill
                 quality={90}
                 className="object-cover object-center"
@@ -556,7 +557,7 @@ export default function HeroTrackLanding() {
             <LogoSquare size="sm" className="hidden md:flex" />
           </div>
           <p className="text-gray-700 text-sm sm:text-base leading-relaxed max-w-4xl mb-8 sm:mb-12">
-            O hardware HeroTrack utiliza tecnologia GPS/GLONASS dual com
+            O hardware TrackHero utiliza tecnologia GPS/GLONASS dual com
             comunicação 4G, garantindo precisão de localização mesmo em áreas
             remotas. O dispositivo é resistente a vibração, temperatura extrema
             e tentativas de sabotagem.
@@ -571,7 +572,7 @@ export default function HeroTrackLanding() {
               {
                 img: "https://images.unsplash.com/photo-1512941937669-90a1b58e7e9c?w=600&q=80",
                 title: "App Mobile",
-                text: "Acompanhe sua frota pelo smartphone com o aplicativo HeroTrack disponível para Android e iOS, com notificações push em tempo real.",
+                text: "Acompanhe sua frota pelo smartphone com o aplicativo TrackHero disponível para Android e iOS, com notificações push em tempo real.",
               },
               {
                 img: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=600&q=80",
@@ -605,7 +606,7 @@ export default function HeroTrackLanding() {
           <SectionLabel>Segurança de Carga</SectionLabel>
           <SectionTitle>Proteção Inteligente Contra Roubos</SectionTitle>
           <p className="text-gray-700 mb-8 leading-relaxed">
-            O módulo de segurança da HeroTrack combina cerca eletrônica virtual,
+            O módulo de segurança da TrackHero combina cerca eletrônica virtual,
             detecção de bloqueadores de sinal (jammer) e bloqueio remoto do
             veículo para oferecer a proteção mais completa disponível no
             mercado.
@@ -671,10 +672,10 @@ export default function HeroTrackLanding() {
               <SectionLabel light>Eficiência Operacional</SectionLabel>
               <SectionTitle light>Redução de Custos Comprovada</SectionTitle>
             </div>
-            <LogoSquare size="sm" className="hidden md:flex" />
+            <LogoSquare size="sm" className="hidden md:flex" transparent />
           </div>
           <p className="mb-8 max-w-4xl text-sm leading-relaxed text-blue-100/90 sm:mb-12 sm:text-base">
-            Clientes HeroTrack reportam redução significativa nos custos
+            Clientes TrackHero reportam redução significativa nos custos
             operacionais após a implementação da plataforma. Com dados precisos
             sobre consumo, comportamento e manutenção, as decisões deixam de ser
             baseadas em suposições.
@@ -727,7 +728,7 @@ export default function HeroTrackLanding() {
           <div className="relative h-56 sm:h-80 md:h-[520px] rounded-xl sm:rounded-2xl overflow-hidden shadow-lg order-1 md:order-2">
             <Image
               src="/images/gestao-motoristas.png"
-              alt="Gestão de motoristas HeroTrack"
+              alt="Gestão de motoristas TrackHero"
               fill
               className="object-cover object-center"
               sizes="(max-width: 768px) 90vw, 480px"
@@ -739,7 +740,7 @@ export default function HeroTrackLanding() {
               Programa de Comportamento e Segurança no Trânsito
             </SectionTitle>
             <p className="text-gray-700 mb-8 leading-relaxed">
-              O módulo de gestão de motoristas da HeroTrack monitora
+              O módulo de gestão de motoristas da TrackHero monitora
               automaticamente{" "}
               <strong>
                 excesso de velocidade, frenagens bruscas, curvas agressivas e
@@ -799,7 +800,7 @@ export default function HeroTrackLanding() {
             <LogoSquare size="sm" className="self-end sm:self-start shrink-0" />
           </div>
           <p className="text-gray-700 text-sm sm:text-base leading-relaxed max-w-4xl mb-10 sm:mb-12">
-            A HeroTrack integra dados de telemetria OBD com alertas automáticos
+            A TrackHero integra dados de telemetria OBD com alertas automáticos
             para criar um plano de manutenção inteligente, reduzindo paradas não
             planejadas e aumentando a vida útil dos veículos.
           </p>
@@ -820,7 +821,7 @@ export default function HeroTrackLanding() {
           <SectionLabel>Relatórios e Inteligência</SectionLabel>
           <SectionTitle>Dados que Geram Decisões Estratégicas</SectionTitle>
           <p className="text-gray-700 mb-8 leading-relaxed">
-            A plataforma HeroTrack oferece mais de{" "}
+            A plataforma TrackHero oferece mais de{" "}
             <strong>50 tipos de relatórios</strong> configuráveis, com
             exportação em PDF e Excel, integração via API com os principais ERPs
             do mercado e dashboards em tempo real acessíveis por qualquer
@@ -863,7 +864,7 @@ export default function HeroTrackLanding() {
         <div className="md:col-span-2 relative min-h-[280px] sm:min-h-[360px] md:min-h-full order-1 md:order-2">
           <Image
             src="/images/dados-decisoes.png"
-            alt="Dados que geram decisões estratégicas — HeroTrack"
+            alt="Dados que geram decisões estratégicas — TrackHero"
             fill
             className="object-cover object-center"
             sizes="40vw"
@@ -927,7 +928,7 @@ export default function HeroTrackLanding() {
             <SectionLabel>Implementação</SectionLabel>
             <SectionTitle>Onboarding Rápido e Suporte Dedicado</SectionTitle>
             <p className="text-gray-700 mb-10 leading-relaxed">
-              A implementação da HeroTrack é rápida e assistida. Nossa equipe
+              A implementação da TrackHero é rápida e assistida. Nossa equipe
               técnica realiza a instalação do hardware, configuração da
               plataforma e treinamento da equipe gestora em até{" "}
               <strong>72 horas</strong> após a contratação.
@@ -937,7 +938,7 @@ export default function HeroTrackLanding() {
           <div className="relative h-56 sm:h-80 md:h-[520px] rounded-xl sm:rounded-2xl overflow-hidden shadow-lg order-1 md:order-2">
             <Image
               src="/images/onboarding-rapido.png"
-              alt="Instalação de hardware HeroTrack"
+              alt="Instalação de hardware TrackHero"
               fill
               className="object-cover object-center"
               sizes="50vw"
@@ -955,7 +956,7 @@ export default function HeroTrackLanding() {
             {[
               {
                 quote:
-                  "Depois do HeroTrack, reduzimos 28% no consumo de combustível em apenas 4 meses. A visibilidade da operação mudou completamente a forma como gerenciamos nossa frota.",
+                  "Depois do TrackHero, reduzimos 28% no consumo de combustível em apenas 4 meses. A visibilidade da operação mudou completamente a forma como gerenciamos nossa frota.",
                 name: "Carlos Mendes",
                 role: "Diretor de Logística, Transportadora Rota Sul",
               },
@@ -992,7 +993,7 @@ export default function HeroTrackLanding() {
               </span>
               <p className="text-gray-600 italic text-sm leading-relaxed mb-6 pt-6 relative z-10">
                 O bloqueio remoto nos salvou de um roubo de carga em plena
-                madrugada. A central HeroTrack agiu em menos de 5 minutos e
+                madrugada. A central TrackHero agiu em menos de 5 minutos e
                 recuperamos o veículo.
               </p>
               <div className="font-bold text-[#013469]">Roberto Alves</div>
@@ -1005,7 +1006,7 @@ export default function HeroTrackLanding() {
         <div className="md:col-span-2 relative min-h-[280px] sm:min-h-[360px] md:min-h-full order-1 md:order-2">
           <Image
             src="/images/depoimentos-cliente.png"
-            alt="Cliente HeroTrack"
+            alt="Cliente TrackHero"
             fill
             className="object-cover object-center"
             sizes="40vw"
@@ -1022,7 +1023,7 @@ export default function HeroTrackLanding() {
         <div className="md:col-span-2 relative min-h-[280px] sm:min-h-[360px] md:min-h-full">
           <Image
             src="/images/fale-com-especialista.png"
-            alt="Fale com um especialista HeroTrack"
+            alt="Fale com um especialista TrackHero"
             fill
             className="object-cover object-center"
             sizes="40vw"
@@ -1045,7 +1046,7 @@ export default function HeroTrackLanding() {
               José Souza
             </div>
             <div className="mb-3 text-slate-600">
-              Especialista em Gestão de Frotas HeroTrack
+              Especialista em Gestão de Frotas TrackHero
             </div>
             <WhatsAppLink
               href={`https://wa.me/${WHATSAPP_NUMBER}`}
@@ -1066,7 +1067,7 @@ export default function HeroTrackLanding() {
             <span className="text-green-600 text-xl shrink-0">✓</span>
             <p className="text-gray-700 text-sm leading-relaxed">
               Entre em contato agora e receba uma{" "}
-              <strong>demonstração gratuita</strong> da plataforma HeroTrack
+              <strong>demonstração gratuita</strong> da plataforma TrackHero
               para a sua frota!
             </p>
           </div>
@@ -1081,7 +1082,7 @@ export default function HeroTrackLanding() {
 
       <footer className="bg-[#013469] py-6 text-center text-blue-200 text-sm">
         <p>
-          &copy; {new Date().getFullYear()} HeroTrack Fleet Management. Todos os
+          &copy; {new Date().getFullYear()} TrackHero Fleet Management. Todos os
           direitos reservados.
         </p>
         <p className="mt-2 text-blue-300">
