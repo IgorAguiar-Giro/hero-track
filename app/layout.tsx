@@ -9,7 +9,7 @@ const poppins = Poppins({
 });
 
 export const metadata: Metadata = {
-  title: "HeroTrack — Sistema de Gestão de Frotas",
+  title: "TrackHero — Sistema de Gestão de Frotas",
   description:
     "Tecnologia de ponta para monitoramento, controle e otimização de frotas em tempo real.",
 };

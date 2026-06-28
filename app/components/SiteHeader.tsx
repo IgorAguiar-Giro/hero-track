@@ -38,7 +38,7 @@ export default function SiteHeader() {
         <div className="flex size-24 shrink-0 items-center justify-center p-2 sm:size-32">
           <Image
             src="/images/track-hero-logo2.png"
-            alt="HeroTrack — Fleet Management"
+            alt="TrackHero — Fleet Management"
             width={180}
             height={180}
             className="h-auto w-full object-contain"
