@@ -5,12 +5,14 @@ import { useRef, type MouseEvent, type ReactNode } from "react";
 type WhatsAppLinkProps = {
   href: string;
   className?: string;
+  "aria-label"?: string;
   children: ReactNode;
 };
 
 export default function WhatsAppLink({
   href,
   className,
+  "aria-label": ariaLabel,
   children,
 }: WhatsAppLinkProps) {
   const opening = useRef(false);
@@ -29,7 +31,12 @@ export default function WhatsAppLink({
   };
 
   return (
-    <a href={href} className={className} onClick={handleClick}>
+    <a
+      href={href}
+      className={className}
+      aria-label={ariaLabel}
+      onClick={handleClick}
+    >
       {children}
     </a>
   );

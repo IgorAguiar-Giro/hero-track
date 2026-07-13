@@ -1,1102 +1,879 @@
 import Image from "next/image";
-import MaintenanceFlowDiagram from "./components/MaintenanceFlowDiagram";
 import SiteHeader from "./components/SiteHeader";
+import TrackHeroEffects from "./components/TrackHeroEffects";
 import WhatsAppLink from "./components/WhatsAppLink";
 
-const BRAND_ORANGE = "#fd510f";
-const BRAND_BLUE = "#013469";
-const WHATSAPP_NUMBER = "5519996141749";
-const WHATSAPP_DEMO_MESSAGE =
-  "Olá! Gostaria de solicitar uma demonstração gratuita da plataforma TrackHero.";
-const WHATSAPP_DEMO_URL = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(
-  WHATSAPP_DEMO_MESSAGE
+const WHATSAPP_URL = "https://wa.me/5519996141749";
+const WHATSAPP_DEMO_URL = `https://wa.me/5519996141749?text=${encodeURIComponent(
+  "Olá! Gostaria de solicitar uma demonstração gratuita da plataforma TrackHero."
 )}`;
 
-function SectionLabel({
-  children,
-  light = false,
-}: {
-  children: React.ReactNode;
-  light?: boolean;
-}) {
+function TruckIcon() {
   return (
-    <div className="mb-3 flex items-center gap-3">
-      <span className="h-[3px] w-10 shrink-0 rounded-full bg-[#fd510f]" />
-      <p
-        className={`text-xs font-semibold uppercase tracking-[0.22em] sm:text-sm ${
-          light ? "text-[#fd510f]" : "text-[#fd510f]"
-        }`}
-      >
-        {children}
-      </p>
-    </div>
-  );
-}
-
-function SectionTitle({
-  children,
-  light = false,
-}: {
-  children: React.ReactNode;
-  light?: boolean;
-}) {
-  return (
-    <div className="mb-4 sm:mb-6">
-      <h2
-        className={`text-2xl font-bold leading-tight sm:text-3xl md:text-4xl ${
-          light ? "text-white" : "text-[#013469]"
-        }`}
-      >
-        {children}
-      </h2>
-      <div
-        className={`mt-4 h-1 w-20 rounded-full ${
-          light
-            ? "bg-gradient-to-r from-[#fd510f] to-white/25"
-            : "bg-gradient-to-r from-[#fd510f] via-[#fd510f]/50 to-transparent"
-        }`}
-      />
-    </div>
-  );
-}
-
-function Logo({
-  className = " h-full w-full object-contain",
-}: {
-  className?: string;
-}) {
-  return (
-    <Image
-      src="/images/track-hero-logo2.png"
-      alt="TrackHero — Fleet Management"
-      width={180}
-      height={180}
-      className={className}
-      priority
-    />
-  );
-}
-
-type Corner = "top-right" | "top-left" | "bottom-left" | "bottom-right";
-type LogoSize = "sm" | "md" | "lg";
-
-const cornerPosition: Record<Corner, string> = {
-  "top-right": "top-0 right-0",
-  "top-left": "top-0 left-0",
-  "bottom-left": "bottom-0 left-0",
-  "bottom-right": "bottom-0 right-0",
-};
-
-const logoBoxSize: Record<LogoSize, string> = {
-  sm: "size-16 sm:size-24",
-  md: "size-24 sm:size-32",
-  lg: "size-28 sm:size-40",
-};
-
-function LogoSquare({
-  size = "md",
-  className = "",
-  transparent = false,
-}: {
-  size?: LogoSize;
-  className?: string;
-  transparent?: boolean;
-}) {
-  return (
-    <div
-      className={`${logoBoxSize[size]} ${
-        transparent ? "bg-transparent" : "bg-white"
-      } flex items-center justify-center shrink-0 ${className}`}
+    <svg
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="var(--orange)"
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
     >
-      <Logo className={` object-contain`} />
+      <rect x="1" y="8" width="12" height="7" />
+      <path d="M13 11h4l3.2 3.2V15H13z" />
+      <circle cx="6" cy="17" r="1.8" fill="var(--orange)" stroke="none" />
+      <circle cx="17" cy="17" r="1.8" fill="var(--orange)" stroke="none" />
+    </svg>
+  );
+}
+
+function RadarVisual() {
+  return (
+    <div className="radar-wrap">
+      <div className="radar-ring" style={{ width: "100%", height: "100%" }} />
+      <div className="radar-ring" style={{ width: "70%", height: "70%" }} />
+      <div className="radar-ring" style={{ width: "40%", height: "40%" }} />
+      <div className="radar-ping" />
+      <div className="radar-ping" />
+      <div className="radar-ping" />
+      <div className="orbit orbit-1">
+        <div className="truck-badge b1">
+          <TruckIcon />
+        </div>
+      </div>
+      <div className="orbit orbit-2">
+        <div className="truck-badge b2">
+          <TruckIcon />
+        </div>
+      </div>
+      <div className="orbit orbit-3">
+        <div className="truck-badge b3">
+          <TruckIcon />
+        </div>
+      </div>
+      <div className="radar-core">
+        <svg viewBox="0 0 24 24" fill="#fff">
+          <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5A2.5 2.5 0 1 1 12 6.5a2.5 2.5 0 0 1 0 5z" />
+        </svg>
+      </div>
     </div>
-  );
-}
-
-function CornerLogo({
-  position = "top-right",
-  size = "md",
-  transparent = false,
-}: {
-  position?: Corner;
-  size?: LogoSize;
-  transparent?: boolean;
-}) {
-  return (
-    <LogoSquare
-      size={size}
-      transparent={transparent} // <-- Added this so it passes the prop down
-      className={`absolute ${cornerPosition[position]} z-10 scale-90 sm:scale-100`}
-    />
-  );
-}
-
-const onboardingSteps = [
-  {
-    day: "Dia 1 — Contrato e Kickoff",
-    text: "Reunião de alinhamento, levantamento da frota e planejamento da instalação.",
-  },
-  {
-    day: "Dia 2 — Instalação",
-    text: "Técnicos certificados instalam os dispositivos em todos os veículos da frota.",
-  },
-  {
-    day: "Dia 3 — Treinamento",
-    text: "Capacitação dos gestores na plataforma web e no aplicativo mobile TrackHero.",
-  },
-  {
-    day: "Dia 4+ — Operação",
-    text: "Frota 100% monitorada com suporte técnico 24/7 disponível por telefone, chat e e-mail.",
-  },
-];
-
-function OnboardingTimeline() {
-  return (
-    <>
-      {/* Mobile: left-aligned vertical timeline */}
-      <div className="md:hidden relative pl-11 space-y-8">
-        <div className="absolute left-[17px] top-2 bottom-2 w-px bg-[#013469]/20" />
-        {onboardingSteps.map((item, i) => (
-          <div key={item.day} className="relative">
-            <div className="absolute -left-11 top-0 flex h-9 w-9 items-center justify-center rounded-lg border border-[#013469]/15 bg-[#e8eef5] text-sm font-bold text-[#013469]">
-              {i + 1}
-            </div>
-            <h3 className="mb-1 text-sm font-bold text-[#013469]">
-              {item.day}
-            </h3>
-            <p className="text-sm leading-relaxed text-slate-600">
-              {item.text}
-            </p>
-          </div>
-        ))}
-      </div>
-
-      {/* Desktop: centered zigzag timeline */}
-      <div className="hidden md:block relative max-w-lg">
-        <div className="absolute left-1/2 top-4 bottom-4 w-px -translate-x-1/2 bg-[#013469]/20" />
-        {onboardingSteps.map((item, i) => {
-          const isLeft = i % 2 === 0;
-          const content = (
-            <>
-              <h3 className="mb-1 text-base font-bold text-[#013469]">
-                {item.day}
-              </h3>
-              <p className="text-sm leading-relaxed text-slate-600">
-                {item.text}
-              </p>
-            </>
-          );
-
-          return (
-            <div
-              key={item.day}
-              className="relative grid grid-cols-[1fr_auto_1fr] gap-x-6 items-center mb-10 last:mb-0"
-            >
-              <div className={isLeft ? "text-right pr-4" : ""}>
-                {isLeft && content}
-              </div>
-              <div className="relative z-10 flex h-10 w-10 shrink-0 items-center justify-center rounded-lg border border-[#013469]/15 bg-[#e8eef5] text-sm font-bold text-[#013469]">
-                {i + 1}
-              </div>
-              <div className={isLeft ? "" : "text-left pl-4"}>
-                {!isLeft && content}
-              </div>
-            </div>
-          );
-        })}
-      </div>
-    </>
   );
 }
 
 export default function TrackHeroLanding() {
   return (
-    <div className="min-h-screen bg-white font-sans text-gray-900">
+    <>
+      <div id="track-progress">
+        <div id="track-progress-fill" />
+      </div>
+
       <SiteHeader />
+      <TrackHeroEffects />
 
-      {/* HERO — Slide 1 (Corporate / Enterprise Design) */}
-      <section className="relative w-full min-h-[75vh] flex items-center bg-[#013469] overflow-hidden">
-        {/* Background Horizontal Image with Corporate Overlay */}
-        <div className="absolute inset-0 z-0">
-          <Image
-            src="/images/hero-frota.png"
-            alt="Frota de veículos corporativos"
-            fill
-            priority
-            className="object-cover object-center"
-            sizes="100vw"
-          />
-          {/* Deep blue gradient overlay. Solid on the left for text readability, fading to the right */}
-          <div className="absolute inset-0 bg-gradient-to-r from-[#013469] via-[#013469]/90 to-[#013469]/20"></div>
-          {/* Fallback darker overlay for mobile to ensure text pops */}
-          <div className="absolute inset-0 bg-[#013469]/60 sm:hidden"></div>
-        </div>
-
-        {/* Main Content */}
-        <div className="relative z-10 w-full max-w-7xl mx-auto px-4 sm:px-6 md:px-12 lg:px-16 py-20 lg:py-32">
-          <div className="max-w-3xl">
-            {/* Corporate Kicker */}
-            <div className="flex items-center gap-4 mb-6">
-              <div className="h-[2px] w-8 bg-[#fd510f]"></div>
-              <span className="text-[#fd510f] font-bold text-xs sm:text-sm tracking-[0.2em] uppercase">
-                Inteligência Logística
-              </span>
-            </div>
-
-            {/* Serious, Authoritative Headline */}
-            <h1 className="inline-block  px-5 py-3 sm:px-6 sm:py-4 mb-6 text-4xl sm:text-5xl lg:text-6xl font-extrabold italic uppercase  ">
-              <span className="text-white">TRACK</span>
-              <span className="text-[#fd510f]">HERO</span>
+      <section className="hero" id="top">
+        <div className="container hero-grid">
+          <div className="hero-text">
+            <div className="eyebrow reveal in">Inteligência logística</div>
+            <h1 className="reveal in">
+              Sua frota, <span>sempre visível.</span>
             </h1>
-
-            <p className="text-base sm:text-lg lg:text-xl text-blue-100 mb-10 max-w-2xl leading-relaxed font-light">
-              Reduza custos e aumente a eficiência da sua frota com
-              monitoramento em tempo real, manutenção preditiva e segurança
-              antifurto de nível empresarial.
+            <p className="lead reveal in reveal-delay-1">
+              Rastreamento em tempo real, manutenção preditiva e segurança
+              antifurto em uma só plataforma. Menos custo, mais controle.
             </p>
-
-            {/* Straightforward CTAs with sharper edges (rounded-sm) */}
-            <div className="flex flex-col sm:flex-row gap-4">
-              <a
-                href="#contato"
-                className="bg-[#fd510f] text-white px-8 py-4 rounded-sm font-bold text-base hover:bg-orange-600 transition-colors text-center"
-              >
+            <div className="hero-cta-row reveal in reveal-delay-2">
+              <a href="#contato" className="btn">
                 Fale com um Especialista
               </a>
-              {/* <a
-                href="#solucao"
-                className="bg-transparent border-2 border-white text-white px-8 py-4 rounded-sm font-bold text-base hover:bg-white hover:text-[#013469] transition-colors text-center"
-              >
-                Conheça a Plataforma
+              <a href="#solucao" className="btn btn-ghost">
+                Ver a plataforma
               </a>
-              */}
+            </div>
+            <div className="hero-stats reveal in reveal-delay-3">
+              <div className="hero-stat">
+                <div className="num" data-count="10" data-suffix="+">
+                  0
+                </div>
+                <div className="label">Anos de mercado</div>
+              </div>
+              <div className="hero-stat">
+                <div className="num" data-count="5000" data-suffix="+">
+                  0
+                </div>
+                <div className="label">Veículos monitorados</div>
+              </div>
+              <div className="hero-stat">
+                <div className="num" data-count="98" data-suffix="%">
+                  0
+                </div>
+                <div className="label">Satisfação</div>
+              </div>
             </div>
           </div>
-        </div>
-
-        {/* Corporate Trust Bar at the bottom of the Hero */}
-        <div className="absolute bottom-0 left-0 w-full bg-[#013469]/95 border-t border-blue-800 z-20 hidden md:block">
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 md:px-12 lg:px-16 py-5 flex justify-between items-center text-white">
-            <div className="flex items-center gap-10">
-              <div className="flex flex-col">
-                <span className="font-black text-2xl leading-none">GESTÃO</span>
-                <span className="text-blue-300 text-xs uppercase tracking-wider mt-1">
-                  De toda sua frota
-                </span>
-              </div>
-              <div className="w-px h-10 bg-blue-800"></div>
-              <div className="flex flex-col">
-                <span className="font-black text-2xl leading-none">
-                  RASTREAMENTO
-                </span>
-                <span className="text-blue-300 text-xs uppercase tracking-wider mt-1">
-                  Em tempo real
-                </span>
-              </div>
-              <div className="w-px h-10 bg-blue-800"></div>
-              <div className="flex flex-col">
-                <span className="font-black text-2xl leading-none">98%</span>
-                <span className="text-blue-300 text-xs uppercase tracking-wider mt-1">
-                  Índice de Retenção
-                </span>
-              </div>
-            </div>
-            <div className="flex items-center gap-3">
-              <span className="w-2.5 h-2.5 rounded-full bg-green-500 shadow-[0_0_8px_rgba(34,197,94,0.8)]"></span>
-              <span className="font-semibold text-sm text-blue-100 tracking-wide">
-                Suporte Operacional 24/7
-              </span>
-            </div>
+          <div className="hero-visual">
+            <RadarVisual />
           </div>
         </div>
       </section>
 
-      {/* SOBRE — Slide 2 */}
-      <section className="py-10 sm:py-16 px-4 sm:px-6 md:px-12 lg:px-16 bg-white">
-        <div className="max-w-7xl mx-auto grid md:grid-cols-2 gap-8 sm:gap-12 items-center">
-          <div>
-            <SectionLabel>Sobre a TrackHero</SectionLabel>
-            <SectionTitle>Quem Somos</SectionTitle>
-            <p className="text-gray-700 mb-4 leading-relaxed">
-              A TrackHero é uma empresa brasileira especializada em soluções de
-              gestão de frotas, combinando rastreamento por GPS, inteligência
-              artificial e análise de dados para transformar a maneira como as
-              empresas gerenciam seus veículos.
-            </p>
-            <p className="text-gray-700 mb-8 leading-relaxed">
-              Com mais de uma década de experiência no mercado logístico,
-              atendemos transportadoras, distribuidoras e empresas com frotas
-              próprias em todo o Brasil, entregando visibilidade total,
-              segurança e redução de custos operacionais.
-            </p>
-            <div className="grid grid-cols-2 gap-3 sm:gap-4">
-              {[
-                {
-                  value: "+10 Anos",
-                  label: "de experiência no mercado",
-                },
-                {
-                  value: "+5.000",
-                  label: "veículos monitorados",
-                },
-                {
-                  value: "98%",
-                  label: "de satisfação dos clientes",
-                  span: "col-span-2",
-                },
-              ].map((stat) => (
-                <div
-                  key={stat.value}
-                  className={`rounded-xl border border-[#013469]/10 border-t-[3px] border-t-[#fd510f] bg-white p-3 text-center shadow-sm sm:p-5 ${
-                    stat.span ?? ""
-                  }`}
-                >
-                  <div className="mb-1 text-xl font-black text-[#013469] sm:text-2xl md:text-3xl">
-                    {stat.value}
-                  </div>
-                  <div className="text-xs text-slate-600 sm:text-sm">
-                    {stat.label}
-                  </div>
-                </div>
-              ))}
+      <div className="trust-bar">
+        <div className="container trust-inner">
+          <div className="trust-item reveal">
+            <div className="num">
+              <span data-count="10" data-suffix="+">
+                0
+              </span>{" "}
+              Anos
             </div>
+            <div className="label">de experiência no mercado</div>
           </div>
-          <div className="relative h-56 sm:h-80 md:h-[480px] rounded-xl sm:rounded-2xl overflow-hidden shadow-lg">
+          <div className="trust-item reveal reveal-delay-1">
+            <div className="num">
+              <span data-count="5000" data-suffix="+">
+                0
+              </span>
+            </div>
+            <div className="label">veículos monitorados</div>
+          </div>
+          <div className="trust-item reveal reveal-delay-2">
+            <div className="num">
+              <span data-count="98" data-suffix="%">
+                0
+              </span>
+            </div>
+            <div className="label">de satisfação dos clientes</div>
+          </div>
+        </div>
+      </div>
+
+      <section id="sobre">
+        <div className="container split">
+          <div className="split-text reveal">
+            <div className="eyebrow">Sobre a TrackHero</div>
+            <h2 className="section-title">Quem somos</h2>
+            <p className="section-sub">
+              Empresa brasileira especializada em gestão de frotas — GPS, IA e
+              dados em uma plataforma só. Mais de uma década atendendo
+              transportadoras, distribuidoras e frotas próprias em todo o
+              Brasil, com visibilidade total e redução real de custo.
+            </p>
+          </div>
+          <div className="split-media reveal reveal-delay-1">
             <Image
               src="/images/quem-somos.png"
               alt="Central de monitoramento TrackHero"
               fill
-              quality={90}
-              className="object-cover object-center"
-              sizes="(max-width: 768px) 100vw, 50vw"
+              sizes="(max-width: 980px) 100vw, 50vw"
             />
           </div>
         </div>
       </section>
 
-      {/* DESAFIO — Slide 3 */}
-      <section className="grid md:grid-cols-5 bg-[#f6f9fc]">
-        <div className="md:col-span-2 relative min-h-[280px] sm:min-h-[360px] md:min-h-[600px]">
-          <Image
-            src="/images/desafio-gestao-frotas.png"
-            alt="Desafio da gestão de frotas no Brasil"
-            fill
-            quality={90}
-            className="object-cover object-center"
-            sizes="(max-width: 768px) 100vw, 40vw"
-          />
-          <CornerLogo position="bottom-left" size="sm" />
-        </div>
-        <div className="md:col-span-3 flex flex-col justify-center bg-[#f6f9fc] px-4 py-10 sm:px-6 sm:py-16 md:px-12 lg:px-16">
-          <SectionLabel>O Desafio</SectionLabel>
-          <SectionTitle>O Desafio da Gestão de Frotas no Brasil</SectionTitle>
-          <p className="text-gray-700 mb-4 leading-relaxed font-medium">
-            Gerenciar uma frota no Brasil é uma tarefa complexa.
-          </p>
-          <p className="text-gray-700 mb-8 leading-relaxed">
-            Empresas enfrentam custos crescentes com combustível, manutenção não
-            planejada, roubos de carga e falta de visibilidade sobre a operação
-            em tempo real — desafios que drenam recursos e comprometem a
-            competitividade.
-          </p>
-          <div className="space-y-4">
-            {[
-              {
-                title: "Custos Incontrolados",
-                text: "Combustível, manutenção corretiva e multas representam até 40% dos custos operacionais.",
-              },
-              {
-                title: "Falta de Visibilidade",
-                text: "Sem rastreamento em tempo real, gestores perdem controle sobre rotas e comportamento dos motoristas.",
-              },
-              {
-                title: "Segurança e Roubo",
-                text: "O Brasil registra milhares de roubos de carga anualmente, causando prejuízos bilionários.",
-              },
-            ].map((item) => (
-              <div
-                key={item.title}
-                className="rounded-lg border border-[#013469]/10 border-l-4 border-l-[#fd510f] bg-white p-5 shadow-sm"
-              >
-                <h3 className="mb-2 font-bold text-[#013469]">{item.title}</h3>
-                <p className="text-sm leading-relaxed text-slate-600">
-                  {item.text}
-                </p>
-              </div>
-            ))}
+      <section id="desafio" className="bg-navy-deep">
+        <div className="container">
+          <div className="reveal">
+            <div className="eyebrow">O desafio</div>
+            <h2 className="section-title">
+              Gerenciar frota no Brasil é complexo
+            </h2>
+            <p className="section-sub">
+              Combustível, manutenção não planejada, roubo de carga e falta de
+              visibilidade drenam recursos e comprometem a operação.
+            </p>
+          </div>
+          <div className="grid-3">
+            <div className="card card-accent-left reveal">
+              <h3>Custos incontrolados</h3>
+              <p>
+                Combustível, manutenção corretiva e multas chegam a 40% dos
+                custos operacionais.
+              </p>
+            </div>
+            <div className="card card-accent-left reveal reveal-delay-1">
+              <h3>Falta de visibilidade</h3>
+              <p>
+                Sem rastreamento em tempo real, gestores perdem controle de
+                rotas e condução.
+              </p>
+            </div>
+            <div className="card card-accent-left reveal reveal-delay-2">
+              <h3>Segurança de carga</h3>
+              <p>
+                Milhares de roubos por ano no Brasil geram prejuízos
+                bilionários ao setor.
+              </p>
+            </div>
           </div>
         </div>
       </section>
 
-      {/* SOLUÇÃO — Slide 4 */}
-      <section className="border-t border-[#013469]/10 bg-white px-4 py-10 sm:px-6 sm:py-16 md:px-12 lg:px-16">
-        <div className="max-w-7xl mx-auto">
-          <div className="flex flex-col sm:flex-row sm:justify-between sm:items-start gap-4 mb-6 sm:mb-8">
-            <div>
-              <SectionLabel>A Solução</SectionLabel>
-              <SectionTitle>
-                TrackHero: Visibilidade Total da Sua Frota
-              </SectionTitle>
-            </div>
-            <LogoSquare size="sm" className="hidden md:flex" />
+      <section id="solucao">
+        <div className="container">
+          <div className="reveal">
+            <div className="eyebrow">A solução</div>
+            <h2 className="section-title">Visibilidade total da sua frota</h2>
+            <p className="section-sub">
+              GPS de alta precisão, telemetria e inteligência de dados em um
+              único painel, acessível de qualquer lugar.
+            </p>
           </div>
-          <p className="text-gray-700 text-sm sm:text-base md:text-lg leading-relaxed max-w-4xl mb-8 sm:mb-12">
-            A plataforma TrackHero integra rastreamento GPS de alta precisão,
-            telemetria veicular e inteligência de dados em um único painel de
-            controle, acessível de qualquer lugar e a qualquer hora.
-          </p>
-          <div className="grid sm:grid-cols-2 gap-6 sm:gap-10">
-            {[
-              {
-                icon: "◎",
-                title: "Rastreamento em Tempo Real",
-                text: "Localize todos os veículos da frota em um mapa interativo, com atualizações a cada 30 segundos.",
-              },
-              {
-                icon: "▣",
-                title: "Telemetria Avançada",
-                text: "Monitore velocidade, frenagens bruscas, aceleração agressiva e consumo de combustível em tempo real.",
-              },
-              {
-                icon: "⛨",
-                title: "Segurança e Antifurto",
-                text: "Alertas imediatos em caso de desvio de rota, jamming de sinal ou movimentação fora do horário permitido.",
-              },
-              {
-                icon: "⚙",
-                title: "Manutenção Preditiva",
-                text: "Agenda automática de revisões com base em quilometragem, horas de uso e alertas de diagnóstico veicular.",
-              },
-            ].map((item) => (
-              <div key={item.title} className="flex gap-4">
-                <div className="text-3xl text-[#013469] font-light shrink-0 w-10">
-                  {item.icon}
-                </div>
+          <div className="grid-4">
+            <div className="card reveal">
+              <div className="icon">
+                <svg
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  strokeWidth="2"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                >
+                  <circle cx="12" cy="12" r="3" />
+                  <path d="M12 2v3M12 19v3M2 12h3M19 12h3" />
+                </svg>
+              </div>
+              <h3>Rastreamento em tempo real</h3>
+              <p>
+                Toda a frota em um mapa interativo, com atualização a cada 30
+                segundos.
+              </p>
+            </div>
+            <div className="card reveal reveal-delay-1">
+              <div className="icon">
+                <svg
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  strokeWidth="2"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                >
+                  <path d="M3 12h4l3 8 4-16 3 8h4" />
+                </svg>
+              </div>
+              <h3>Telemetria avançada</h3>
+              <p>
+                Velocidade, frenagens, aceleração e consumo monitorados em
+                tempo real.
+              </p>
+            </div>
+            <div className="card reveal reveal-delay-2">
+              <div className="icon">
+                <svg
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  strokeWidth="2"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                >
+                  <path d="M12 2l8 4v6c0 5-3.5 8.5-8 10-4.5-1.5-8-5-8-10V6l8-4z" />
+                </svg>
+              </div>
+              <h3>Segurança antifurto</h3>
+              <p>
+                Alertas imediatos de desvio de rota, jamming ou movimento fora
+                de horário.
+              </p>
+            </div>
+            <div className="card reveal reveal-delay-3">
+              <div className="icon">
+                <svg
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  strokeWidth="2"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                >
+                  <circle cx="12" cy="12" r="3" />
+                  <path d="M19.4 15a1.7 1.7 0 00.3 1.9l.1.1a2 2 0 11-2.8 2.8l-.1-.1a1.7 1.7 0 00-1.9-.3 1.7 1.7 0 00-1 1.5V21a2 2 0 11-4 0v-.1a1.7 1.7 0 00-1-1.6 1.7 1.7 0 00-1.9.3l-.1.1a2 2 0 11-2.8-2.8l.1-.1a1.7 1.7 0 00.3-1.9 1.7 1.7 0 00-1.5-1H3a2 2 0 110-4h.1a1.7 1.7 0 001.5-1 1.7 1.7 0 00-.3-1.9l-.1-.1a2 2 0 112.8-2.8l.1.1a1.7 1.7 0 001.9.3H9a1.7 1.7 0 001-1.5V3a2 2 0 114 0v.1a1.7 1.7 0 001 1.5 1.7 1.7 0 001.9-.3l.1-.1a2 2 0 112.8 2.8l-.1.1a1.7 1.7 0 00-.3 1.9V9a1.7 1.7 0 001.5 1H21a2 2 0 110 4h-.1a1.7 1.7 0 00-1.5 1z" />
+                </svg>
+              </div>
+              <h3>Manutenção preditiva</h3>
+              <p>
+                Revisões agendadas por quilometragem, uso e diagnóstico do
+                veículo.
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section id="modulos" className="bg-navy-deep">
+        <div className="container split">
+          <div className="split-media reveal">
+            <Image
+              src="/images/modulos-plataforma.png"
+              alt="Dashboard de gestão de frotas"
+              fill
+              sizes="(max-width: 980px) 100vw, 50vw"
+            />
+          </div>
+          <div className="split-text reveal reveal-delay-1">
+            <div className="eyebrow">Módulos da plataforma</div>
+            <h2 className="section-title">
+              Funcionalidades que transformam a operação
+            </h2>
+            <div className="flow flow-tight">
+              <div className="flow-step flow-step-plain">
+                <div className="flow-num flow-num-square">◆</div>
                 <div>
-                  <h3 className="mb-2 font-bold text-[#013469]">
-                    {item.title}
-                  </h3>
-                  <p className="text-sm leading-relaxed text-slate-600">
-                    {item.text}
+                  <h4>Gestão de rotas</h4>
+                  <p>
+                    Planejamento e otimização automática para reduzir distância
+                    e tempo de entrega.
                   </p>
                 </div>
               </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* MÓDULOS — Slide 5 */}
-      <section className="border-t border-[#013469]/10 bg-[#fff8f4] px-4 py-10 sm:px-6 sm:py-16 md:px-12 lg:px-16">
-        <div className="max-w-7xl mx-auto">
-          <div className="flex flex-col sm:flex-row sm:justify-between sm:items-start gap-4 mb-8 sm:mb-10">
-            <div>
-              <SectionLabel>Módulos da Plataforma</SectionLabel>
-              <SectionTitle>
-                Funcionalidades que Transformam a Operação
-              </SectionTitle>
-            </div>
-            <LogoSquare size="sm" className="hidden md:flex" transparent />
-          </div>
-          <div className="grid md:grid-cols-2 gap-8 sm:gap-12 items-center">
-            <div className="relative h-52 sm:h-72 md:h-96 rounded-xl sm:rounded-2xl overflow-hidden shadow-lg order-1 md:order-none">
-              <Image
-                src="/images/modulos-plataforma.png"
-                alt="Dashboard TrackHero — Módulos da Plataforma"
-                fill
-                quality={90}
-                className="object-cover object-center"
-                sizes="(max-width: 768px) 100vw, 50vw"
-              />
-            </div>
-            <div className="space-y-6 sm:space-y-8 order-2 md:order-none">
-              {[
-                {
-                  num: "1",
-                  title: "Gestão de Rotas",
-                  text: "Planejamento e otimização automática de rotas para reduzir distância percorrida e tempo de entrega.",
-                },
-                {
-                  num: "2",
-                  title: "Controle de Motoristas",
-                  text: "Cadastro de motoristas, jornada de trabalho, pontuação de comportamento e relatórios individuais de condução.",
-                },
-                {
-                  num: "3",
-                  title: "Relatórios e BI",
-                  text: "Dashboards personalizáveis com KPIs operacionais, exportação de dados e integrações via API com ERPs.",
-                },
-              ].map((item) => (
-                <div key={item.num} className="flex gap-5">
-                  <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-[#013469] text-xl font-bold text-white">
-                    {item.num}
-                  </div>
-                  <div>
-                    <h3 className="mb-2 font-bold text-[#013469]">
-                      {item.title}
-                    </h3>
-                    <p className="text-gray-600 text-sm leading-relaxed">
-                      {item.text}
-                    </p>
-                  </div>
+              <div className="flow-step flow-step-plain">
+                <div className="flow-num flow-num-square">◆</div>
+                <div>
+                  <h4>Controle de motoristas</h4>
+                  <p>
+                    Jornada, pontuação de comportamento e relatórios
+                    individuais.
+                  </p>
                 </div>
-              ))}
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* RASTREAMENTO — Slide 6 */}
-      <section className="py-10 sm:py-16 px-4 sm:px-6 md:px-12 lg:px-16 bg-white">
-        <div className="max-w-7xl mx-auto">
-          <div className="flex flex-col sm:flex-row sm:justify-between sm:items-start gap-4 mb-4 sm:mb-6">
-            <div>
-              <SectionLabel>Rastreamento</SectionLabel>
-              <SectionTitle>Monitoramento GPS de Alta Precisão</SectionTitle>
-            </div>
-            <LogoSquare size="sm" className="hidden md:flex" />
-          </div>
-          <p className="text-gray-700 text-sm sm:text-base leading-relaxed max-w-4xl mb-8 sm:mb-12">
-            O hardware TrackHero utiliza tecnologia GPS/GLONASS dual com
-            comunicação 4G, garantindo precisão de localização mesmo em áreas
-            remotas. O dispositivo é resistente a vibração, temperatura extrema
-            e tentativas de sabotagem.
-          </p>
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 sm:gap-8">
-            {[
-              {
-                img: "https://images.unsplash.com/photo-1519003722824-194d4455a60c?w=600&q=80",
-                title: "Hardware Embarcado",
-                text: "Dispositivo compacto instalado de forma oculta, com bateria de backup para funcionar mesmo com o veículo desligado.",
-              },
-              {
-                img: "https://images.unsplash.com/photo-1512941937669-90a1b58e7e9c?w=600&q=80",
-                title: "App Mobile",
-                text: "Acompanhe sua frota pelo smartphone com o aplicativo TrackHero disponível para Android e iOS, com notificações push em tempo real.",
-              },
-              {
-                img: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=600&q=80",
-                title: "Central de Monitoramento",
-                text: "Suporte 24/7 com equipe especializada para acionamento rápido em situações de emergência, roubo ou acidente.",
-              },
-            ].map((item) => (
-              <div key={item.title}>
-                <div className="relative h-44 rounded-xl overflow-hidden mb-4 shadow-md">
-                  <Image
-                    src={item.img}
-                    alt={item.title}
-                    fill
-                    className="object-cover"
-                    sizes="33vw"
-                  />
+              </div>
+              <div className="flow-step flow-step-plain">
+                <div className="flow-num flow-num-square">◆</div>
+                <div>
+                  <h4>Relatórios e BI</h4>
+                  <p>
+                    Dashboards com KPIs, exportação de dados e integração via
+                    API com ERPs.
+                  </p>
                 </div>
-                <h3 className="mb-2 font-bold text-[#013469]">{item.title}</h3>
-                <p className="text-sm leading-relaxed text-slate-600">
-                  {item.text}
-                </p>
               </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* SEGURANÇA — Slide 7 */}
-      <section className="grid border-t border-[#013469]/10 bg-[#f6f9fc] md:grid-cols-2">
-        <div className="px-4 sm:px-6 md:px-12 lg:px-16 py-10 sm:py-16 flex flex-col justify-center order-2 md:order-1">
-          <SectionLabel>Segurança de Carga</SectionLabel>
-          <SectionTitle>Proteção Inteligente Contra Roubos</SectionTitle>
-          <p className="text-gray-700 mb-8 leading-relaxed">
-            O módulo de segurança da TrackHero combina cerca eletrônica virtual,
-            detecção de bloqueadores de sinal (jammer) e bloqueio remoto do
-            veículo para oferecer a proteção mais completa disponível no
-            mercado.
-          </p>
-          <div className="grid sm:grid-cols-2 gap-4">
-            {[
-              {
-                title: "Cerca Virtual",
-                text: "Defina áreas autorizadas e receba alertas instantâneos quando o veículo sair do perímetro configurado.",
-              },
-              {
-                title: "Bloqueio Remoto",
-                text: "Em caso de roubo confirmado, acione o bloqueio do motor remotamente pelo painel ou pelo app.",
-              },
-              {
-                title: "Anti-Jammer",
-                text: "Detecção imediata de dispositivos que tentam bloquear o sinal GPS, com alerta para a central de monitoramento.",
-                span: "sm:col-span-2",
-              },
-            ].map((item) => (
-              <div
-                key={item.title}
-                className={`rounded-xl border border-[#013469]/10 bg-[#013469]/5 p-5 ${
-                  item.span ?? ""
-                }`}
-              >
-                <h3 className="mb-2 font-bold text-[#013469]">{item.title}</h3>
-                <p className="text-sm leading-relaxed text-slate-600">
-                  {item.text}
-                </p>
-              </div>
-            ))}
-          </div>
-        </div>
-        <div className="relative min-h-[280px] sm:min-h-[360px] md:min-h-full order-1 md:order-2">
-          <Image
-            src="/images/scania.jpg"
-            alt="Segurança de carga — caminhão em operação"
-            fill
-            quality={90}
-            priority
-            className="object-cover object-left"
-            sizes="(max-width: 768px) 100vw, 50vw"
-          />
-          <CornerLogo position="top-right" size="sm" />
-        </div>
-      </section>
-
-      {/* EFICIÊNCIA — Slide 8 */}
-      <section className="relative overflow-hidden bg-[#013469] px-4 py-10 sm:px-6 sm:py-16 md:px-12 lg:px-16">
-        <div
-          className="pointer-events-none absolute inset-0 opacity-[0.06]"
-          style={{
-            backgroundImage:
-              "radial-gradient(circle at 2px 2px, white 1px, transparent 0)",
-            backgroundSize: "28px 28px",
-          }}
-        />
-        <div className="pointer-events-none absolute -right-24 top-0 h-full w-1/2 bg-gradient-to-l from-[#fd510f]/15 to-transparent" />
-        <div className="relative mx-auto max-w-7xl">
-          <div className="mb-4 flex flex-col gap-4 sm:mb-6 sm:flex-row sm:items-start sm:justify-between">
-            <div>
-              <SectionLabel light>Eficiência Operacional</SectionLabel>
-              <SectionTitle light>Redução de Custos Comprovada</SectionTitle>
             </div>
-            <LogoSquare size="sm" className="hidden md:flex" transparent />
           </div>
-          <p className="mb-8 max-w-4xl text-sm leading-relaxed text-blue-100/90 sm:mb-12 sm:text-base">
-            Clientes TrackHero reportam redução significativa nos custos
-            operacionais após a implementação da plataforma. Com dados precisos
-            sobre consumo, comportamento e manutenção, as decisões deixam de ser
-            baseadas em suposições.
-          </p>
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-8 sm:gap-10 md:gap-16">
-            {[
-              {
-                pct: "25%",
-                title: "Redução de Combustível",
-                text: "Média alcançada pelos clientes com otimização de rotas e monitoramento de condução.",
-              },
-              {
-                pct: "40%",
-                title: "Menos Manutenção Corretiva",
-                text: "Queda nas paradas não programadas com o programa de manutenção preditiva.",
-              },
-              {
-                pct: "30%",
-                title: "Aumento de Produtividade",
-                text: "Melhora na eficiência das entregas com rotas otimizadas e controle de jornada.",
-              },
-              {
-                pct: "60%",
-                title: "Redução de Incidentes",
-                text: "Diminuição de acidentes e multas com o programa de gestão comportamental de motoristas.",
-              },
-            ].map((item) => (
-              <div key={item.title} className="text-center md:text-left">
-                <div
-                  className="mb-2 text-4xl font-black sm:mb-3 sm:text-5xl md:text-6xl"
-                  style={{ color: BRAND_ORANGE }}
+        </div>
+      </section>
+
+      <section id="rastreamento">
+        <div className="container">
+          <div className="reveal">
+            <div className="eyebrow">Rastreamento</div>
+            <h2 className="section-title">
+              Monitoramento GPS de alta precisão
+            </h2>
+            <p className="section-sub">
+              GPS/GLONASS dual com comunicação 4G, precisão mesmo em áreas
+              remotas. Hardware resistente a vibração, temperatura extrema e
+              sabotagem.
+            </p>
+          </div>
+          <div className="grid-3">
+            <div className="card reveal">
+              <div className="icon">
+                <svg
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  strokeWidth="2"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
                 >
-                  {item.pct}
-                </div>
-                <h3 className="mb-2 text-lg font-bold text-white">
-                  {item.title}
-                </h3>
-                <p className="text-sm leading-relaxed text-blue-200/90">
-                  {item.text}
-                </p>
+                  <rect x="2" y="4" width="20" height="16" rx="2" />
+                  <path d="M2 8h20" />
+                </svg>
               </div>
-            ))}
+              <h3>Hardware embarcado</h3>
+              <p>
+                Instalação oculta, com bateria de backup ativa mesmo com o
+                veículo desligado.
+              </p>
+            </div>
+            <div className="card reveal reveal-delay-1">
+              <div className="icon">
+                <svg
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  strokeWidth="2"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                >
+                  <rect x="5" y="2" width="14" height="20" rx="2" />
+                  <path d="M12 18h.01" />
+                </svg>
+              </div>
+              <h3>App mobile</h3>
+              <p>
+                Acompanhe a frota pelo celular, Android e iOS, com push em
+                tempo real.
+              </p>
+            </div>
+            <div className="card reveal reveal-delay-2">
+              <div className="icon">
+                <svg
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  strokeWidth="2"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                >
+                  <path d="M18.4 5.6a9 9 0 010 12.8M5.6 5.6a9 9 0 000 12.8M15 8.5a5 5 0 010 7M9 8.5a5 5 0 000 7M12 12h.01" />
+                </svg>
+              </div>
+              <h3>Central de monitoramento</h3>
+              <p>
+                Suporte 24/7 com equipe própria para emergência, roubo ou
+                acidente.
+              </p>
+            </div>
           </div>
         </div>
       </section>
 
-      {/* GESTÃO DE MOTORISTAS — Slide 9 */}
-      <section className="border-t border-[#013469]/10 bg-[#f6f9fc] px-4 py-10 sm:px-6 sm:py-16 md:px-12 lg:px-16">
-        <div className="max-w-7xl mx-auto grid md:grid-cols-2 gap-8 sm:gap-12 items-center">
-          <div className="relative h-56 sm:h-80 md:h-[520px] rounded-xl sm:rounded-2xl overflow-hidden shadow-lg order-1 md:order-2">
+      <section id="seguranca" className="bg-navy-deep">
+        <div className="container split reverse">
+          <div className="split-media reveal">
+            <Image
+              src="/images/scania.jpg"
+              alt="Segurança de carga e caminhão"
+              fill
+              sizes="(max-width: 980px) 100vw, 50vw"
+            />
+          </div>
+          <div className="split-text reveal reveal-delay-1">
+            <div className="eyebrow">Segurança de carga</div>
+            <h2 className="section-title">
+              Proteção inteligente contra roubos
+            </h2>
+            <p className="section-sub">
+              Cerca eletrônica virtual, detecção de bloqueadores de sinal e
+              bloqueio remoto — a proteção mais completa do mercado.
+            </p>
+            <div className="grid-3 security-features">
+              <div className="card-accent-left security-feature">
+                <h3>Cerca virtual</h3>
+                <p>Alertas instantâneos ao sair do perímetro autorizado.</p>
+              </div>
+              <div className="card-accent-left security-feature">
+                <h3>Bloqueio remoto</h3>
+                <p>
+                  Acione o bloqueio do motor pelo painel ou app em caso de
+                  roubo.
+                </p>
+              </div>
+              <div className="card-accent-left security-feature">
+                <h3>Anti-jammer</h3>
+                <p>
+                  Detecção imediata de bloqueadores de sinal GPS, com alerta à
+                  central.
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section id="resultados" className="stat-band">
+        <div className="container">
+          <div className="reveal">
+            <div className="eyebrow">Eficiência operacional</div>
+            <h2 className="section-title">Redução de custo comprovada</h2>
+            <p className="section-sub">
+              Dados precisos sobre consumo, comportamento e manutenção
+              substituem suposições por decisão.
+            </p>
+          </div>
+          <div className="grid-4">
+            <div className="stat-block reveal">
+              <div className="num" data-count="25" data-suffix="%">
+                0
+              </div>
+              <div className="title">Combustível</div>
+              <p>Otimização de rotas e monitoramento de condução.</p>
+            </div>
+            <div className="stat-block reveal reveal-delay-1">
+              <div className="num" data-count="40" data-suffix="%">
+                0
+              </div>
+              <div className="title">Manutenção corretiva</div>
+              <p>
+                Menos paradas não programadas com manutenção preditiva.
+              </p>
+            </div>
+            <div className="stat-block reveal reveal-delay-2">
+              <div className="num" data-count="30" data-suffix="%">
+                0
+              </div>
+              <div className="title">Produtividade</div>
+              <p>Entregas mais eficientes com rotas otimizadas.</p>
+            </div>
+            <div className="stat-block reveal reveal-delay-3">
+              <div className="num" data-count="60" data-suffix="%">
+                0
+              </div>
+              <div className="title">Incidentes</div>
+              <p>Menos acidentes e multas com gestão comportamental.</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section id="motoristas">
+        <div className="container split">
+          <div className="split-text reveal">
+            <div className="eyebrow">Gestão de motoristas</div>
+            <h2 className="section-title">
+              Comportamento e segurança no trânsito
+            </h2>
+            <p className="section-sub">
+              Excesso de velocidade, frenagens bruscas e uso de celular são
+              monitorados automaticamente, gerando um score individual.
+            </p>
+            <div className="flow">
+              <div className="flow-step">
+                <div className="flow-num">1</div>
+                <div>
+                  <h4>Monitorar</h4>
+                  <p>
+                    Comportamento registrado automaticamente em toda viagem.
+                  </p>
+                </div>
+              </div>
+              <div className="flow-step">
+                <div className="flow-num">2</div>
+                <div>
+                  <h4>Avaliar</h4>
+                  <p>Score individual, ranking e histórico de evolução.</p>
+                </div>
+              </div>
+              <div className="flow-step">
+                <div className="flow-num">3</div>
+                <div>
+                  <h4>Treinar</h4>
+                  <p>
+                    Relatórios direcionados para treinamento e gamificação.
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div className="split-media reveal reveal-delay-1">
             <Image
               src="/images/gestao-motoristas.png"
-              alt="Gestão de motoristas TrackHero"
+              alt="Motorista em cabine de caminhão"
               fill
-              className="object-cover object-center"
-              sizes="(max-width: 768px) 90vw, 480px"
-            />
-          </div>
-          <div className="order-2">
-            <SectionLabel>Gestão de Motoristas</SectionLabel>
-            <SectionTitle>
-              Programa de Comportamento e Segurança no Trânsito
-            </SectionTitle>
-            <p className="text-gray-700 mb-8 leading-relaxed">
-              O módulo de gestão de motoristas da TrackHero monitora
-              automaticamente{" "}
-              <strong>
-                excesso de velocidade, frenagens bruscas, curvas agressivas e
-                uso de celular ao volante
-              </strong>
-              , gerando uma pontuação individual que orienta treinamentos e
-              bonificações.
-            </p>
-            <div className="space-y-4">
-              {[
-                {
-                  num: "1",
-                  title: "Monitorar",
-                  text: "Comportamento registrado automaticamente durante todas as viagens.",
-                },
-                {
-                  num: "2",
-                  title: "Avaliar",
-                  text: "Score individual por motorista com ranking e histórico de evolução.",
-                },
-                {
-                  num: "3",
-                  title: "Treinar",
-                  text: "Relatórios direcionados para treinamentos precisos e gamificação.",
-                },
-              ].map((item) => (
-                <div
-                  key={item.num}
-                  className="flex overflow-hidden rounded-lg border border-[#013469]/10"
-                >
-                  <div className="flex w-14 shrink-0 items-center justify-center bg-[#fd510f] text-2xl font-bold text-white">
-                    {item.num}
-                  </div>
-                  <div className="p-4">
-                    <h3 className="mb-1 font-bold text-[#013469]">
-                      {item.title}
-                    </h3>
-                    <p className="text-gray-600 text-sm">{item.text}</p>
-                  </div>
-                </div>
-              ))}
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* MANUTENÇÃO — Slide 10 */}
-      <section className="py-10 sm:py-16 px-4 sm:px-6 md:px-12 lg:px-16 bg-white">
-        <div className="max-w-7xl mx-auto">
-          <div className="flex flex-col sm:flex-row sm:justify-between sm:items-start gap-4 mb-6">
-            <div className="flex-1 min-w-0">
-              <SectionLabel>Manutenção</SectionLabel>
-              <SectionTitle>
-                Da Corretiva à Preditiva: Cuide da Frota Antes do Problema
-              </SectionTitle>
-            </div>
-            <LogoSquare size="sm" className="self-end sm:self-start shrink-0" />
-          </div>
-          <p className="text-gray-700 text-sm sm:text-base leading-relaxed max-w-4xl mb-10 sm:mb-12">
-            A TrackHero integra dados de telemetria OBD com alertas automáticos
-            para criar um plano de manutenção inteligente, reduzindo paradas não
-            planejadas e aumentando a vida útil dos veículos.
-          </p>
-
-          <MaintenanceFlowDiagram />
-
-          <p className="text-gray-700 text-sm sm:text-base leading-relaxed text-center max-w-3xl mx-auto">
-            Com este fluxo automatizado, os gestores recebem alertas{" "}
-            <strong>antes que a falha aconteça</strong>, eliminando custos com
-            reboque, perda de carga e improdutividade da frota.
-          </p>
-        </div>
-      </section>
-
-      {/* RELATÓRIOS — Slide 11 */}
-      <section className="grid border-t border-[#013469]/10 bg-[#f6f9fc] md:grid-cols-5">
-        <div className="md:col-span-3 px-4 sm:px-6 md:px-12 lg:px-16 py-10 sm:py-16 order-2 md:order-1">
-          <SectionLabel>Relatórios e Inteligência</SectionLabel>
-          <SectionTitle>Dados que Geram Decisões Estratégicas</SectionTitle>
-          <p className="text-gray-700 mb-8 leading-relaxed">
-            A plataforma TrackHero oferece mais de{" "}
-            <strong>50 tipos de relatórios</strong> configuráveis, com
-            exportação em PDF e Excel, integração via API com os principais ERPs
-            do mercado e dashboards em tempo real acessíveis por qualquer
-            dispositivo.
-          </p>
-          <div className="space-y-6">
-            {[
-              {
-                icon: "⛽",
-                title: "Consumo de Combustível",
-                text: "Por veículo, por rota ou por motorista, com comparativos e tendências mensais.",
-              },
-              {
-                icon: "📍",
-                title: "Histórico de Rotas",
-                text: "Replay completo de cada viagem com paradas, velocidades e eventos registrados.",
-              },
-              {
-                icon: "🕐",
-                title: "Jornada de Trabalho",
-                text: "Controle de horas trabalhadas, tempo em marcha e conformidade com a legislação trabalhista.",
-              },
-            ].map((item) => (
-              <div key={item.title} className="flex gap-4">
-                <div className="flex h-16 w-12 shrink-0 items-center justify-center rounded-full bg-[#e8eef5] text-xl ring-2 ring-[#fd510f]/30">
-                  {item.icon}
-                </div>
-                <div>
-                  <h3 className="mb-1 font-bold text-[#013469]">
-                    {item.title}
-                  </h3>
-                  <p className="text-sm leading-relaxed text-slate-600">
-                    {item.text}
-                  </p>
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-        <div className="md:col-span-2 relative min-h-[280px] sm:min-h-[360px] md:min-h-full order-1 md:order-2">
-          <Image
-            src="/images/dados-decisoes.png"
-            alt="Dados que geram decisões estratégicas — TrackHero"
-            fill
-            className="object-cover object-center"
-            sizes="40vw"
-          />
-          <CornerLogo position="top-right" size="sm" />
-        </div>
-      </section>
-
-      {/* SEGMENTOS — Slide 12 */}
-      <section className="py-10 sm:py-16 px-4 sm:px-6 md:px-12 lg:px-16 bg-white">
-        <div className="max-w-7xl mx-auto">
-          <div className="flex flex-col sm:flex-row sm:justify-between sm:items-start gap-4 mb-8 sm:mb-10">
-            <div>
-              <SectionLabel>Segmentos Atendidos</SectionLabel>
-              <SectionTitle>Soluções para Cada Tipo de Frota</SectionTitle>
-            </div>
-            <LogoSquare size="sm" className="hidden md:flex" />
-          </div>
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 sm:gap-8">
-            {[
-              {
-                img: "https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?w=600&q=80",
-                title: "Transporte de Cargas",
-                text: "Rotas otimizadas, controle de temperatura para cargas refrigeradas e gestão completa de entregas.",
-              },
-              {
-                img: "/images/transporte-passageiros.png",
-                title: "Transporte de Passageiros",
-                text: "Monitoramento de escolares, fretados e transporte público com foco em segurança e pontualidade.",
-              },
-              {
-                img: "https://images.unsplash.com/photo-1449965408869-eaa3f722e40d?w=600&q=80",
-                title: "Frotas Corporativas",
-                text: "Controle de uso de veículos corporativos, política de utilização e relatórios para o RH e financeiro.",
-              },
-            ].map((item) => (
-              <div key={item.title}>
-                <div className="relative h-48 rounded-xl overflow-hidden mb-4 shadow-md">
-                  <Image
-                    src={item.img}
-                    alt={item.title}
-                    fill
-                    className="object-cover"
-                    sizes="33vw"
-                  />
-                </div>
-                <h3 className="mb-2 font-bold text-[#013469]">{item.title}</h3>
-                <p className="text-sm leading-relaxed text-slate-600">
-                  {item.text}
-                </p>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* IMPLEMENTAÇÃO — Slide 13 */}
-      <section className="border-t border-[#013469]/10 bg-[#fff8f4] px-4 py-10 sm:px-6 sm:py-16 md:px-12 lg:px-16">
-        <div className="max-w-7xl mx-auto grid md:grid-cols-2 gap-8 sm:gap-12 items-center">
-          <div className="order-2 md:order-1">
-            <SectionLabel>Implementação</SectionLabel>
-            <SectionTitle>Onboarding Rápido e Suporte Dedicado</SectionTitle>
-            <p className="text-gray-700 mb-10 leading-relaxed">
-              A implementação da TrackHero é rápida e assistida. Nossa equipe
-              técnica realiza a instalação do hardware, configuração da
-              plataforma e treinamento da equipe gestora em até{" "}
-              <strong>72 horas</strong> após a contratação.
-            </p>
-            <OnboardingTimeline />
-          </div>
-          <div className="relative h-56 sm:h-80 md:h-[520px] rounded-xl sm:rounded-2xl overflow-hidden shadow-lg order-1 md:order-2">
-            <Image
-              src="/images/onboarding-rapido.png"
-              alt="Instalação de hardware TrackHero"
-              fill
-              className="object-cover object-center"
-              sizes="50vw"
+              sizes="(max-width: 980px) 100vw, 50vw"
             />
           </div>
         </div>
       </section>
 
-      {/* DEPOIMENTOS — Slide 15 */}
-      <section className="grid border-t border-[#013469]/10 bg-white md:grid-cols-5">
-        <div className="md:col-span-3 px-4 sm:px-6 md:px-12 lg:px-16 py-10 sm:py-16 order-2 md:order-1">
-          <SectionLabel>Depoimentos</SectionLabel>
-          <SectionTitle>O Que Nossos Clientes Dizem</SectionTitle>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6">
-            {[
-              {
-                quote:
-                  "Depois do TrackHero, reduzimos 28% no consumo de combustível em apenas 4 meses. A visibilidade da operação mudou completamente a forma como gerenciamos nossa frota.",
-                name: "Carlos Mendes",
-                role: "Diretor de Logística, Transportadora Rota Sul",
-              },
-              {
-                quote:
-                  "A implantação foi surpreendentemente rápida. Em 3 dias já tínhamos todos os veículos monitorados e a equipe treinada. O suporte é excepcional.",
-                name: "Ana Paula Ribeiro",
-                role: "Gerente de Frota, Distribuidora Central",
-              },
-            ].map((item) => (
-              <div
-                key={item.name}
-                className="relative rounded-xl border border-[#013469]/15 bg-white p-4 shadow-sm sm:p-6"
-              >
-                <span
-                  className="text-5xl absolute top-2 left-4 leading-none"
-                  style={{ color: BRAND_BLUE }}
+      <section id="manutencao" className="bg-navy-deep">
+        <div className="container">
+          <div className="reveal">
+            <div className="eyebrow">Manutenção</div>
+            <h2 className="section-title">Da corretiva à preditiva</h2>
+            <p className="section-sub">
+              Telemetria OBD com alertas automáticos elimina custo com reboque,
+              perda de carga e improdutividade.
+            </p>
+          </div>
+          <div className="grid-4">
+            <div className="card reveal card-center">
+              <div className="flow-num">1</div>
+              <h3>Monitoramento</h3>
+              <p>Coleta dados do veículo em tempo real.</p>
+            </div>
+            <div className="card reveal reveal-delay-1 card-center">
+              <div className="flow-num">2</div>
+              <h3>Análise</h3>
+              <p>Identifica desgaste e risco de falha.</p>
+            </div>
+            <div className="card reveal reveal-delay-2 card-center">
+              <div className="flow-num">3</div>
+              <h3>Agendamento</h3>
+              <p>Revisões programadas automaticamente.</p>
+            </div>
+            <div className="card reveal reveal-delay-3 card-center">
+              <div className="flow-num">4</div>
+              <h3>Alerta</h3>
+              <p>Antes que a falha aconteça.</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section id="relatorios">
+        <div className="container">
+          <div className="reveal">
+            <div className="eyebrow">Relatórios e inteligência</div>
+            <h2 className="section-title">
+              Dados que geram decisão estratégica
+            </h2>
+            <p className="section-sub">
+              Mais de 50 relatórios configuráveis, exportação em PDF/Excel e
+              integração via API com os principais ERPs.
+            </p>
+          </div>
+          <div className="grid-3">
+            <div className="card reveal">
+              <div className="icon">
+                <svg
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  strokeWidth="2"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
                 >
-                  &ldquo;
-                </span>
-                <p className="text-gray-600 italic text-sm leading-relaxed mb-6 pt-6 relative z-10">
-                  {item.quote}
-                </p>
-                <div className="font-bold text-[#013469]">{item.name}</div>
-                <div className="text-sm text-slate-500">{item.role}</div>
+                  <path d="M3 3v18h18M7 15l4-4 3 3 5-6" />
+                </svg>
               </div>
-            ))}
-            <div className="relative rounded-xl border border-[#013469]/15 bg-white p-4 shadow-sm sm:p-6 md:col-span-2">
-              <span
-                className="text-5xl absolute top-2 left-4 leading-none"
-                style={{ color: BRAND_BLUE }}
-              >
-                &ldquo;
-              </span>
-              <p className="text-gray-600 italic text-sm leading-relaxed mb-6 pt-6 relative z-10">
-                O bloqueio remoto nos salvou de um roubo de carga em plena
-                madrugada. A central TrackHero agiu em menos de 5 minutos e
-                recuperamos o veículo.
+              <h3>Consumo de combustível</h3>
+              <p>Por veículo, rota ou motorista, com tendência mensal.</p>
+            </div>
+            <div className="card reveal reveal-delay-1">
+              <div className="icon">
+                <svg
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  strokeWidth="2"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                >
+                  <path d="M12 2C8 2 5 5 5 9c0 6 7 13 7 13s7-7 7-13c0-4-3-7-7-7z" />
+                  <circle cx="12" cy="9" r="2.5" />
+                </svg>
+              </div>
+              <h3>Histórico de rotas</h3>
+              <p>Replay completo de cada viagem, paradas e eventos.</p>
+            </div>
+            <div className="card reveal reveal-delay-2">
+              <div className="icon">
+                <svg
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  strokeWidth="2"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                >
+                  <circle cx="12" cy="12" r="9" />
+                  <path d="M12 7v5l3 3" />
+                </svg>
+              </div>
+              <h3>Jornada de trabalho</h3>
+              <p>Controle de horas e conformidade com a legislação.</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section id="segmentos" className="bg-navy-deep">
+        <div className="container">
+          <div className="reveal">
+            <div className="eyebrow">Segmentos atendidos</div>
+            <h2 className="section-title">
+              Soluções para cada tipo de frota
+            </h2>
+          </div>
+          <div className="grid-3">
+            <div className="segment-card reveal">
+              <Image
+                src="/images/scania.jpg"
+                alt="Transporte de cargas"
+                fill
+                sizes="(max-width: 640px) 100vw, 33vw"
+              />
+              <div className="segment-content">
+                <h3>Transporte de cargas</h3>
+                <p>
+                  Rotas otimizadas e controle para cargas refrigeradas.
+                </p>
+              </div>
+            </div>
+            <div className="segment-card reveal reveal-delay-1">
+              <Image
+                src="/images/transporte-passageiros.png"
+                alt="Transporte de passageiros"
+                fill
+                sizes="(max-width: 640px) 100vw, 33vw"
+              />
+              <div className="segment-content">
+                <h3>Transporte de passageiros</h3>
+                <p>
+                  Escolares, fretados e público com foco em segurança.
+                </p>
+              </div>
+            </div>
+            <div className="segment-card reveal reveal-delay-2">
+              <Image
+                src="https://images.unsplash.com/photo-1449965408869-eaa3f722e40d?w=600&q=80"
+                alt="Frotas corporativas"
+                fill
+                sizes="(max-width: 640px) 100vw, 33vw"
+              />
+              <div className="segment-content">
+                <h3>Frotas corporativas</h3>
+                <p>Política de uso e relatórios para RH e financeiro.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section id="implementacao">
+        <div className="container">
+          <div className="reveal">
+            <div className="eyebrow">Implementação</div>
+            <h2 className="section-title">
+              Onboarding rápido, suporte dedicado
+            </h2>
+            <p className="section-sub">
+              Instalação, configuração e treinamento completos em até 72 horas.
+            </p>
+          </div>
+          <div className="timeline">
+            <div className="timeline-track">
+              <div className="timeline-item reveal">
+                <div className="timeline-dot">1</div>
+                <h4>Contrato e kickoff</h4>
+                <p>Alinhamento, levantamento da frota e planejamento.</p>
+              </div>
+              <div className="timeline-item reveal reveal-delay-1">
+                <div className="timeline-dot">2</div>
+                <h4>Instalação</h4>
+                <p>Técnicos certificados instalam os dispositivos.</p>
+              </div>
+              <div className="timeline-item reveal reveal-delay-2">
+                <div className="timeline-dot">3</div>
+                <h4>Treinamento</h4>
+                <p>Capacitação da equipe na web e no app.</p>
+              </div>
+              <div className="timeline-item reveal reveal-delay-3">
+                <div className="timeline-dot">4</div>
+                <h4>Operação</h4>
+                <p>Frota monitorada com suporte 24/7.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section id="depoimentos" className="bg-navy-deep">
+        <div className="container">
+          <div className="reveal">
+            <div className="eyebrow">Depoimentos</div>
+            <h2 className="section-title">O que nossos clientes dizem</h2>
+          </div>
+          <div className="grid-3">
+            <div className="testi-card reveal">
+              <div className="testi-quote">&ldquo;</div>
+              <p className="txt">
+                Reduzimos 28% no consumo de combustível em 4 meses. A
+                visibilidade mudou como gerenciamos a frota.
               </p>
-              <div className="font-bold text-[#013469]">Roberto Alves</div>
-              <div className="text-sm text-slate-500">
-                Proprietário, Transportes Alves & Filhos
+              <div className="testi-person">
+                <div className="testi-avatar">CM</div>
+                <div>
+                  <div className="name">Carlos Mendes</div>
+                  <div className="role">Diretor de Logística, Rota Sul</div>
+                </div>
+              </div>
+            </div>
+            <div className="testi-card reveal reveal-delay-1">
+              <div className="testi-quote">&ldquo;</div>
+              <p className="txt">
+                Implantação rápida, em 3 dias já tínhamos toda a frota
+                monitorada e a equipe treinada.
+              </p>
+              <div className="testi-person">
+                <div className="testi-avatar">AR</div>
+                <div>
+                  <div className="name">Ana Paula Ribeiro</div>
+                  <div className="role">
+                    Gerente de Frota, Distribuidora Central
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div className="testi-card reveal reveal-delay-2">
+              <div className="testi-quote">&ldquo;</div>
+              <p className="txt">
+                O bloqueio remoto nos salvou de um roubo de carga. A central
+                agiu em menos de 5 minutos.
+              </p>
+              <div className="testi-person">
+                <div className="testi-avatar">RA</div>
+                <div>
+                  <div className="name">Roberto Alves</div>
+                  <div className="role">Transportes Alves &amp; Filhos</div>
+                </div>
               </div>
             </div>
           </div>
         </div>
-        <div className="md:col-span-2 relative min-h-[280px] sm:min-h-[360px] md:min-h-full order-1 md:order-2">
-          <Image
-            src="/images/depoimentos-cliente.png"
-            alt="Cliente TrackHero"
-            fill
-            className="object-cover object-center"
-            sizes="40vw"
-          />
-          <CornerLogo position="top-right" size="sm" />
-        </div>
       </section>
 
-      {/* CTA — Slide 16 */}
-      <section
-        id="contato"
-        className="grid border-t border-[#013469]/10 bg-gradient-to-br from-[#f6f9fc] via-white to-[#fff8f4] md:grid-cols-5"
-      >
-        <div className="md:col-span-2 relative min-h-[280px] sm:min-h-[360px] md:min-h-full">
-          <Image
-            src="/images/fale-com-especialista.png"
-            alt="Fale com um especialista TrackHero"
-            fill
-            className="object-cover object-center"
-            sizes="40vw"
-          />
-        </div>
-        <div className="md:col-span-3 px-4 sm:px-6 md:px-12 lg:px-16 py-10 sm:py-16 flex flex-col justify-center">
-          <div className="flex justify-end mb-6 sm:mb-8">
-            <LogoSquare size="sm" />
-          </div>
-          <SectionLabel>Fale Conosco</SectionLabel>
-          <SectionTitle>Fale com um Especialista</SectionTitle>
-          <p className="mb-6 max-w-2xl text-sm leading-relaxed text-slate-700 sm:mb-8 sm:text-base">
-            Pronto para transformar a gestão da sua frota? Nossa equipe está
-            disponível para apresentar uma demonstração personalizada, tirar
-            todas as suas dúvidas e montar o plano ideal para a realidade da sua
-            empresa.
-          </p>
-          <div className="mb-4 w-full max-w-md rounded-xl border border-[#013469]/15 bg-white p-4 shadow-sm sm:p-6">
-            <div className="mb-1 text-lg font-bold text-[#013469] sm:text-xl">
-              José Souza
-            </div>
-            <div className="mb-3 text-slate-600">
-              Especialista em Gestão de Frotas TrackHero
-            </div>
-            <WhatsAppLink
-              href={`https://wa.me/${WHATSAPP_NUMBER}`}
-              className="flex items-center gap-2.5 text-lg font-bold text-[#013469] transition-colors hover:text-[#25D366]"
-            >
-              <svg
-                viewBox="0 0 24 24"
-                fill="currentColor"
-                className="h-6 w-6 shrink-0 text-[#25D366]"
-                aria-hidden
-              >
-                <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.435 9.884-9.881 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.89-11.893a11.821 11.821 0 00-3.48-8.413z" />
-              </svg>
-              (19) 99614-1749
-            </WhatsAppLink>
-          </div>
-          <div className="bg-green-50 border border-green-100 p-4 sm:p-5 rounded-xl w-full max-w-2xl flex gap-3 items-start">
-            <span className="text-green-600 text-xl shrink-0">✓</span>
-            <p className="text-gray-700 text-sm leading-relaxed">
-              Entre em contato agora e receba uma{" "}
-              <strong>demonstração gratuita</strong> da plataforma TrackHero
-              para a sua frota!
+      <section className="final-cta" id="contato">
+        <div className="container">
+          <div className="reveal">
+            <div className="eyebrow eyebrow-center">Fale conosco</div>
+            <h2>Pronto para transformar a gestão da sua frota?</h2>
+            <p>
+              Demonstração personalizada e um plano sob medida para a realidade
+              da sua empresa.
             </p>
+            <div className="final-cta-row">
+              <WhatsAppLink href={WHATSAPP_DEMO_URL} className="btn">
+                Solicitar Demonstração Gratuita
+              </WhatsAppLink>
+            </div>
+            <div className="contact-line">
+              José Souza · Especialista em Gestão de Frotas ·{" "}
+              <b>(19) 99614-1749</b>
+            </div>
           </div>
-          <WhatsAppLink
-            href={WHATSAPP_DEMO_URL}
-            className="animate-cta-glow mt-6 sm:mt-8 inline-block w-full rounded-md bg-[#fd510f] px-6 py-3 text-center text-base font-bold text-white shadow-lg shadow-[#fd510f]/40 transition-all hover:scale-[1.02] hover:bg-orange-600 hover:shadow-xl hover:shadow-[#fd510f]/50 sm:mt-8 sm:w-auto sm:px-8 sm:py-4 sm:text-lg"
-          >
-            Solicitar Demonstração Gratuita
-          </WhatsAppLink>
         </div>
       </section>
 
-      <footer className="bg-[#013469] py-6 text-center text-blue-200 text-sm">
-        <p>
-          &copy; {new Date().getFullYear()} TrackHero Fleet Management. Todos os
-          direitos reservados.
-        </p>
-        <p className="mt-2 text-blue-300">
-          Site criado por{" "}
-          <a
-            href="https://www.linkedin.com/in/igoraguiar000/"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="text-white font-medium hover:text-[#fd510f] transition-colors underline-offset-2 hover:underline"
-          >
-            Igor Aguiar
-          </a>
-        </p>
+      <footer>
+        <div className="container">
+          <div className="footer-top">
+            <a href="#top" className="footer-logo">
+              <Image
+                src="/images/track-hero-logo2.png"
+                alt="TrackHero"
+                width={180}
+                height={56}
+                style={{ height: 56, width: "auto" }}
+              />
+            </a>
+            <div className="footer-links">
+              <a href="#solucao">Solução</a>
+              <a href="#modulos">Módulos</a>
+              <a href="#seguranca">Segurança</a>
+              <a href="#resultados">Resultados</a>
+              <a href="#contato">Contato</a>
+            </div>
+          </div>
+          <div className="footer-bottom">
+            <span>
+              © {new Date().getFullYear()} TrackHero Fleet Management. Todos os
+              direitos reservados.
+            </span>
+            <span>
+              Site criado por{" "}
+              <a
+                href="https://www.linkedin.com/in/igoraguiar000/"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="footer-credit-link"
+              >
+                Igor Aguiar
+              </a>
+            </span>
+          </div>
+        </div>
       </footer>
-    </div>
+
+      <WhatsAppLink
+        href={WHATSAPP_URL}
+        className="wa-float"
+        aria-label="WhatsApp"
+      >
+        <svg viewBox="0 0 32 32" aria-hidden>
+          <path d="M16.01 3C9.38 3 4 8.38 4 15.01c0 2.4.7 4.63 1.9 6.5L4 29l7.66-1.85a11.9 11.9 0 004.35.82h.01c6.63 0 12.01-5.38 12.01-12.01C28.02 8.38 22.64 3 16.01 3zm0 21.8c-1.5 0-2.94-.4-4.2-1.16l-.3-.18-4.55 1.1 1.12-4.44-.2-.31a9.8 9.8 0 01-1.5-5.2c0-5.42 4.4-9.82 9.82-9.82 5.42 0 9.82 4.4 9.82 9.82-.01 5.43-4.41 9.82-9.83 9.82zm5.4-7.35c-.3-.15-1.75-.86-2.02-.96-.27-.1-.47-.15-.66.15-.2.3-.76.96-.93 1.16-.17.2-.34.22-.63.07-.3-.15-1.25-.46-2.38-1.47a8.9 8.9 0 01-1.65-2.05c-.17-.3-.02-.46.13-.6.13-.13.3-.34.44-.5.15-.17.2-.3.3-.5.1-.2.05-.37-.02-.52-.07-.15-.66-1.6-.91-2.18-.24-.58-.48-.5-.66-.5h-.56c-.2 0-.52.07-.79.37-.27.3-1.04 1.02-1.04 2.48s1.06 2.87 1.21 3.07c.15.2 2.09 3.2 5.08 4.48.7.3 1.26.49 1.68.62.7.22 1.35.19 1.85.12.57-.09 1.75-.71 2-1.4.24-.68.24-1.27.17-1.4-.07-.13-.27-.2-.56-.35z" />
+        </svg>
+      </WhatsAppLink>
+    </>
   );
 }

@@ -1,17 +1,29 @@
 import type { Metadata } from "next";
-import { Poppins } from "next/font/google";
+import { Inter, JetBrains_Mono, Oswald } from "next/font/google";
 import "./globals.css";
 
-const poppins = Poppins({
-  variable: "--font-poppins",
+const oswald = Oswald({
+  variable: "--font-oswald",
+  subsets: ["latin"],
+  weight: ["400", "500", "600", "700"],
+});
+
+const inter = Inter({
+  variable: "--font-inter",
   subsets: ["latin"],
   weight: ["400", "500", "600", "700", "800"],
 });
 
+const jetbrains = JetBrains_Mono({
+  variable: "--font-jetbrains",
+  subsets: ["latin"],
+  weight: ["500", "600"],
+});
+
 export const metadata: Metadata = {
-  title: "TrackHero — Sistema de Gestão de Frotas",
+  title: "TrackHero — Gestão Inteligente de Frotas",
   description:
-    "Tecnologia de ponta para monitoramento, controle e otimização de frotas em tempo real.",
+    "Rastreamento em tempo real, manutenção preditiva e segurança antifurto em uma só plataforma. Menos custo, mais controle.",
 };
 
 export default function RootLayout({
@@ -22,9 +34,9 @@ export default function RootLayout({
   return (
     <html
       lang="pt-BR"
-      className={`${poppins.variable} h-full antialiased font-sans`}
+      className={`${oswald.variable} ${inter.variable} ${jetbrains.variable} h-full antialiased`}
     >
-      <body className="min-h-full flex flex-col">{children}</body>
+      <body className="min-h-full">{children}</body>
     </html>
   );
 }
