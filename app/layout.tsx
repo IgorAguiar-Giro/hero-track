@@ -21,7 +21,7 @@ const jetbrains = JetBrains_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "TrackHero — Gestão Inteligente de Frotas",
+  title: "TrackHero - Gestão Inteligente de Frotas",
   description:
     "Rastreamento em tempo real, manutenção preditiva e segurança antifurto em uma só plataforma. Menos custo, mais controle.",
 };
