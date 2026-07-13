@@ -849,17 +849,6 @@ export default function TrackHeroLanding() {
               © {new Date().getFullYear()} TrackHero Fleet Management. Todos os
               direitos reservados.
             </span>
-            <span>
-              Site criado por{" "}
-              <a
-                href="https://www.linkedin.com/in/igoraguiar000/"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="footer-credit-link"
-              >
-                Igor Aguiar
-              </a>
-            </span>
           </div>
         </div>
       </footer>
