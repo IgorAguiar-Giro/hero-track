@@ -23,7 +23,7 @@ export default function WhatsAppLink({
     if (opening.current) return;
     opening.current = true;
 
-    window.location.assign(href);
+    window.open(href, "_blank", "noopener,noreferrer");
 
     window.setTimeout(() => {
       opening.current = false;
@@ -35,6 +35,8 @@ export default function WhatsAppLink({
       href={href}
       className={className}
       aria-label={ariaLabel}
+      target="_blank"
+      rel="noopener noreferrer"
       onClick={handleClick}
     >
       {children}

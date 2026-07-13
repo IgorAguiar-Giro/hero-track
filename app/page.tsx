@@ -3,7 +3,6 @@ import SiteHeader from "./components/SiteHeader";
 import TrackHeroEffects from "./components/TrackHeroEffects";
 import WhatsAppLink from "./components/WhatsAppLink";
 
-const WHATSAPP_URL = "https://wa.me/5519996141749";
 const WHATSAPP_DEMO_URL = `https://wa.me/5519996141749?text=${encodeURIComponent(
   "Olá! Gostaria de solicitar uma demonstração gratuita da plataforma TrackHero."
 )}`;
@@ -866,7 +865,7 @@ export default function TrackHeroLanding() {
       </footer>
 
       <WhatsAppLink
-        href={WHATSAPP_URL}
+        href={WHATSAPP_DEMO_URL}
         className="wa-float"
         aria-label="WhatsApp"
       >
